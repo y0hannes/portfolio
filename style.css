@@ -135,7 +135,6 @@ body {
   text-align: center;
 }
 
-
 .about-content {
   display: flex;
   flex-wrap: wrap;
@@ -211,4 +210,55 @@ body {
 .card p {
   font-size: 0.95rem;
   color: #6b7280;
+}
+
+.projects {
+  padding: 5rem 2rem;
+  background-color: #f9fafb;
+  height: 100vh;
+}
+
+.project-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto 3rem auto;
+}
+
+.project-card {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 350px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+}
+
+.project-card img {
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  width: 100%;
+  height: auto;
+}
+
+.project-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #111827;
+}
+
+.project-card p {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin-bottom: 1rem;
 }
