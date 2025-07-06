@@ -311,3 +311,46 @@ body {
 .view-all {
   text-align: center;
 } 
+
+.skills {
+  padding: 5rem 2rem;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto 0 auto;
+}
+
+.skills-box {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: left;
+}
+
+.skills-box h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #111827;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tags span {
+  background-color: #e5e7eb;
+  color: #111827;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+  border-radius: 9999px;
+  font-weight: 500;
+}
