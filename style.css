@@ -20,7 +20,7 @@ body {
   align-items: center;
   padding: 1rem 3rem;
   border-bottom: 1px solid #e5e7eb;
-  background-color: #ffffff;
+  background-color: #e5e7eb;
 }
 
 .logo {
@@ -87,7 +87,7 @@ body {
 
 .primary {
   background-color: #111827;
-  color: #ffffff;
+  color: #e5e7eb;
 }
 
 .secondary {
@@ -213,6 +213,10 @@ body {
 }
 
 .projects {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 5rem 2rem;
   background-color: #f9fafb;
   height: 100vh;
@@ -302,7 +306,7 @@ body {
 
 .btn-primary {
   background-color: #111827;
-  color: #ffffff;
+  color: #e5e7eb;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   text-decoration: none;
@@ -313,8 +317,9 @@ body {
 } 
 
 .skills {
+  height: 100vh;
   padding: 5rem 2rem;
-  background-color: #ffffff;
+  background-color: #f9fafb;
   text-align: center;
 }
 
