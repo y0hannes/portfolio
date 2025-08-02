@@ -1,13 +1,14 @@
-import { Github, Linkedin, Mail, ArrowDown } from 'lucide-react';
-
 const Hero = () => {
   return (
-    <section className="h-screen flex flex-col justify-center items-center p-8 text-center bg-gray-50">
+    <section
+      className="h-screen flex flex-col justify-center items-center px-6 text-center"
+      id="hero"
+    >
       <h1 className="text-5xl font-bold text-gray-900">Yohannes Muluken</h1>
-      <h2 className="text-xl mt-3 text-gray-500">
+      <h2 className="text-lg text-gray-500 mt-3">
         Full Stack Developer & Problem Solver
       </h2>
-      <p className="mt-4 max-w-2xl mx-auto text-gray-500 text-base">
+      <p className="mt-4 max-w-xl text-gray-500 text-base mx-auto">
         I create digital experiences that combine beautiful design with robust
         functionality. Passionate about clean code, user experience, and
         innovative solutions.
@@ -16,33 +17,45 @@ const Hero = () => {
       <div className="mt-8 flex justify-center gap-4">
         <a
           href="#projects"
-          className="py-3 px-6 rounded-lg font-semibold bg-gray-900 text-gray-100 hover:bg-gray-800 transition-colors"
+          className="px-6 py-3 bg-gray-900 text-gray-100 font-semibold rounded-md hover:bg-gray-800 transition"
         >
           View My Work
         </a>
         <a
           href="#contact"
-          className="py-3 px-6 rounded-lg font-semibold bg-transparent border border-gray-300 text-gray-900 hover:bg-gray-100 transition-colors"
+          className="px-6 py-3 border border-gray-300 text-gray-900 font-semibold rounded-md hover:bg-gray-100 transition"
         >
           Get In Touch
         </a>
       </div>
 
-      <div className="mt-8 flex justify-center gap-6 text-2xl">
-        <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
-          <Github size={24} />
+      <div className="mt-8 text-2xl flex gap-4 text-gray-600">
+        <a
+          href="#"
+          className="hover:text-gray-900 transition"
+          aria-label="GitHub"
+        >
+          <i className="ri-github-line"></i>
         </a>
-        <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
-          <Linkedin size={24} />
+        <a
+          href="#"
+          className="hover:text-gray-900 transition"
+          aria-label="LinkedIn"
+        >
+          <i className="ri-linkedin-box-line"></i>
         </a>
-        <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
-          <Mail size={24} />
+        <a
+          href="mailto:your.email@example.com"
+          className="hover:text-gray-900 transition"
+          aria-label="Email"
+        >
+          <i className="ri-mail-line"></i>
         </a>
       </div>
 
-      <div className="absolute bottom-10">
-        <a href="#about" className="text-gray-500 hover:text-gray-800 animate-bounce">
-          <ArrowDown size={24} />
+      <div className="mt-8 text-3xl text-gray-400 animate-bounce">
+        <a href="#about">
+          <i className="ri-arrow-down-s-line"></i>
         </a>
       </div>
     </section>
