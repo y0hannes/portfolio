@@ -1,12 +1,12 @@
 const Header = () => {
   return (
-    <header className="flex justify-between items-center py-4 px-12 border-b border-gray-200 bg-gray-200">
+    <header className="flex justify-between items-center py-4 px-12 border-b border-gray-200 bg-gray-200 sticky top-0 z-50">
       <div className="font-bold text-xl">Portfolio</div>
       <nav>
         <ul className="flex gap-8 list-none">
           <li>
             <a
-              href="#"
+              href="#about"
               className="text-gray-800 font-medium no-underline hover:text-black"
             >
               About
@@ -14,7 +14,7 @@ const Header = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="#projects"
               className="text-gray-800 font-medium no-underline hover:text-black"
             >
               Projects
@@ -22,7 +22,7 @@ const Header = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="#skills"
               className="text-gray-800 font-medium no-underline hover:text-black"
             >
               Skills
@@ -30,7 +30,7 @@ const Header = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="#contact"
               className="text-gray-800 font-medium no-underline hover:text-black"
             >
               Contact

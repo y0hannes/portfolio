@@ -31,14 +31,14 @@ const Hero = () => {
 
       <div className="mt-8 text-2xl flex gap-4 text-gray-600">
         <a
-          href="#"
+          href="https://github.com/y0hannes/"
           className="hover:text-gray-900 transition"
           aria-label="GitHub"
         >
           <i className="ri-github-line"></i>
         </a>
         <a
-          href="#"
+          href="https://linkedin.com/in/yohannes-muluken/"
           className="hover:text-gray-900 transition"
           aria-label="LinkedIn"
         >

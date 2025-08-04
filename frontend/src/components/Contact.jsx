@@ -36,14 +36,14 @@ const Contact = () => {
 
           <div className="flex gap-3">
             <a
-              href="#"
+              href="https://github.com/y0hannes/"
               className="bg-gray-100 hover:bg-gray-200 p-2 rounded-md transition"
               aria-label="GitHub"
             >
               <i className="ri-github-line text-xl text-gray-700"></i>
             </a>
             <a
-              href="#"
+              href="https://linkedin/in/yohannes-muluken/"
               className="bg-gray-100 hover:bg-gray-200 p-2 rounded-md transition"
               aria-label="LinkedIn"
             >

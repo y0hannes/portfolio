@@ -1,6 +1,8 @@
 import { Code, Brush, Zap, ArrowDown } from 'lucide-react';
 
 const About = () => {
+  const currentYear = new Date().getFullYear()
+  const years = currentYear - 2023
   return (
     <section id="about" className="min-h-screen flex flex-col justify-center items-center p-8 text-center bg-white">
       <h2 className="text-4xl font-bold text-gray-900 mb-12">About Me</h2>
@@ -8,7 +10,7 @@ const About = () => {
       <div className="flex flex-wrap justify-center items-start gap-12 max-w-6xl mx-auto mb-12">
         <div className="flex-1 basis-96 max-w-xl text-gray-600 text-lg leading-relaxed text-left">
           <p className="mb-4">
-            I'm a passionate developer with 2 years of experience creating web applications that solve real-world
+            I'm a passionate developer with <span>{years}</span> years of experience creating web applications that solve real-world
             problems. I love turning complex challenges into simple, beautiful solutions.
           </p>
           <p className="mb-4">
