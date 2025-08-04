@@ -9,8 +9,24 @@ const getMessages = async (req, res) => {
   }
   catch (err) {
     console.log(err)
-    res.status(500).json({err: 'Server error'})
+    res.status(500).json({ err: 'Server error' })
   }
 }
 
-module.exports = getMessages
+const createMessage = async (req, res) => {
+  try {
+    const { name, email, subject, content } = req.body
+    if (!name || !email || !subject || !content) {
+      return res.status(400).json({ err: 'All fields should be field' })
+    }
+    const message = new Message({ name, email, subject, content })
+    await message.save()
+
+    res.status(201).json({ msg: 'Message created' })
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ err: 'Server error' })
+  }
+}
+
+module.exports = { getMessages, createMessage }

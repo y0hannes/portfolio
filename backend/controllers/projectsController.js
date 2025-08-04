@@ -72,4 +72,4 @@ const deleteProject = async (req, res) => {
 }
 
 
-module.exports = getProjects, postProject, updateProject, deleteProject
+module.exports = { getProjects, postProject, updateProject, deleteProject }

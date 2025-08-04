@@ -5,7 +5,10 @@ const { getProjects,
   deleteProject
 } = require('../controllers/projectsController')
 
-const getMessages = require('../controllers/messageController')
+const {
+  getMessages,
+  createMessage
+}= require('../controllers/messageController')
 
 const login = require('../controllers/authController')
 
@@ -19,5 +22,6 @@ routes.post('/projects', postProject)
 routes.put('/projects/:slug', updateProject)
 routes.delete('/projects/:slug', deleteProject)
 routes.get('/messages', getMessages)
+routes.post('/messages', createMessage)
 
 module.exports = routes

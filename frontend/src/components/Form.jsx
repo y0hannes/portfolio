@@ -1,4 +1,25 @@
+import { getMessages, createMessage } from "./Services"
+import { useState } from "react"
 const Form = () => {
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [subject, setSubject] = useState('')
+  const [content, setContent] = useState('')
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const newMessage = ({ name, email, subject, content })
+    createMessage(newMessage)
+      .then(response => {
+        setName('')
+        setEmail('')
+        setSubject('')
+        setContent('')
+        alert('Message delivered ! ')
+      })
+      .catch(error => { alert("Error sending message") })
+  }
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
@@ -6,7 +27,7 @@ const Form = () => {
         Send a Message
       </h3>
 
-      <form className="space-y-4">
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="name" className="block text-sm font-medium mb-1">
             Name
@@ -16,6 +37,8 @@ const Form = () => {
             id="name"
             placeholder="Your Name"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
 
@@ -28,6 +51,8 @@ const Form = () => {
             id="email"
             placeholder="your.email@example.com"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+            ueue={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
@@ -40,6 +65,8 @@ const Form = () => {
             id="subject"
             placeholder="What's this about?"
             className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
           />
         </div>
 
@@ -52,6 +79,8 @@ const Form = () => {
             rows={4}
             placeholder="Tell me about your project..."
             className="w-full px-4 py-2 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-gray-900"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           ></textarea>
         </div>
 

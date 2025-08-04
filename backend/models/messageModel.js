@@ -11,7 +11,11 @@ const messageSchema = new mongoose.Schema({
     required: [true, 'Please provide your email address.'],
     validate: [validator.isEmail, 'Please provide a valid email address.'],
   },
-  message: {
+  subject: {
+    type: String,
+    required: [true, 'Please provide subject.'],
+  },
+  content: {
     type: String,
     required: [true, 'Please provide a message.'],
   },
