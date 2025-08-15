@@ -1,4 +1,5 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
@@ -29,4 +30,20 @@ const login = async (req, res) => {
   )
 }
 
-module.exports = login
+const authenticateAdmin = (req, res, next) => {
+  const authHeader = req.headers.authorization
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ err: 'Missing or invalid token' })
+  }
+
+  const token = authHeader.split(' ')[1]
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET)
+    req.user = decoded.user
+    next()
+  } catch (err) {
+    return res.status(401).json({ err: 'Token is not valid' })
+  }
+}
+
+module.exports = { login, authenticateAdmin }
