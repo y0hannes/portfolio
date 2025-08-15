@@ -11,14 +11,6 @@ const Info = () => {
       </p>
 
       <ul className="text-gray-700 mb-6 space-y-4">
-        <li className="flex items-center gap-3">
-          <i className="ri-mail-line text-lg"></i>
-          your.email@example.com
-        </li>
-        <li className="flex items-center gap-3">
-          <i className="ri-phone-line text-lg"></i>
-          +* (***) ***-****
-        </li>
         <li className="flex items-centecenterr gap-3">
           <i className="ri-map-pin-line text-lg"></i>
           Addis Abeba, Ethiopia

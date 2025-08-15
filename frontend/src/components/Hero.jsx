@@ -44,13 +44,6 @@ const Hero = () => {
         >
           <i className="ri-linkedin-box-line"></i>
         </a>
-        <a
-          href="mailto:your.email@example.com"
-          className="hover:text-gray-900 transition"
-          aria-label="Email"
-        >
-          <i className="ri-mail-line"></i>
-        </a>
       </div>
 
       <div className="mt-8 text-3xl text-gray-400 animate-bounce">
