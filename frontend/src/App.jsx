@@ -1,20 +1,15 @@
-import Header from "../src/components/Header"
-import Hero from '../src/components/Hero'
-import About from '../src/components/About'
-import Projects from "./components/Projects"
-import Skills from "./components/Skills"
-import Contact from "./components/Contact"
+import { Route, Routes } from 'react-router-dom'
+import Public from "./pages/Public"
+import Admin from './pages/Admin'
 
 const App = () => {
   return (
-    <>
-      <Header />
-      <Hero />
-      <About />
-      <Projects />
-      <Skills />
-      <Contact />
-    </>
+    <div>
+      <Routes>
+        <Route path='/' element={<Public />} />
+        <Route path='/admin' element={<Admin />} />
+      </Routes>
+    </div >
   )
 }
 
