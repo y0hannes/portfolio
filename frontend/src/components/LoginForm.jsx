@@ -1,15 +1,19 @@
-import { useState } from "react"
-import loginServices from "../services/loginServices"
+import { useContext, useState } from "react"
+import {useNavigate} from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const { login } = useContext(AuthContext)
+  const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const user = await loginServices.login({ username, password })
-    loginServices.setToken(user.token)
-    setUser(user)
+    const logged = await login(username, password)
+    if(logged){
+      navigate('/admin')
+    }
   }
 
   return (
