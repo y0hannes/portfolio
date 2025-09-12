@@ -16,7 +16,6 @@ const ProjectList = () => {
         await projectServices.remove(id)
         setProjects(projects.filter(p => p._id !== id))
       } catch (error) {
-        console.error('Delete failed:', error)
         alert('Delete failed')
       }
     }
@@ -46,15 +45,17 @@ const ProjectList = () => {
                 <td className="px-4 py-2">
                   <button
                     onClick={() => setEditingProject(project)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded-md hover:bg-blue-600 transition mr-2"
+                    className="text-gray-500 hover:text-blue-600 transition"
+                    title="Edit Project"
                   >
-                    Edit
+                    <i className="ri-pencil-line text-lg"></i>
                   </button>
                   <button
                     onClick={() => handleDelete(project._id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded-md hover:bg-red-600 transition"
+                    className="text-gray-500 hover:text-red-600 transition"
+                    title="Delete Project"
                   >
-                    Delete
+                    <i className="ri-delete-bin-line text-lg"></i>
                   </button>
                 </td>
               </tr>

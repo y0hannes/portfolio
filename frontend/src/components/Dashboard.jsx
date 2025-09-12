@@ -20,7 +20,7 @@ const Dashboard = () => {
       </div>
       <ProjectForm />
       <ProjectList />
-      {/* <MessageList /> */}
+      <MessageList />
     </div>
   )
 }

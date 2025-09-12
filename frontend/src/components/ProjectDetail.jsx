@@ -1,55 +1,7 @@
-import { useContext } from "react"
-import { AuthContext } from "../context/AuthContext"
-import projectServices from "../services/projectServices"
-
 const ProjectDetail = ({ project }) => {
-  const { admin } = useContext(AuthContext)
-
-  const updateProject = async (event) => {
-    event.preventDefault()
-    try {
-      await projectServices.update(project._id)
-      alert('Project updatedd successfully!')
-    } catch (error) {
-      console.error('Upload failed:', error)
-      alert('Update operation failed')
-    }
-  }
-
-  const deleteProject = async (event) => {
-    event.preventDefault()
-    try {
-      await projectServices.remove(project._id)
-      alert('Project Deleted successfully!')
-    } catch (error) {
-      console.error('Delete failed:', error)
-      alert('Delete operation failed')
-    }
-  }
 
   return (
     <div className="relative bg-gray-50 border border-gray-200 rounded-xl p-6 flex flex-col w-full max-w-sm shadow-sm transition-transform duration-300 hover:-translate-y-1">
-
-      {/* Admin Edit/Delete Buttons */}
-      {admin && (
-        <div className="absolute top-3 right-3 flex gap-2 z-10">
-          <button
-            onClick={updateProject}
-            className="text-gray-500 hover:text-blue-600 transition"
-            title="Edit Project"
-          >
-            <i className="ri-pencil-line text-lg"></i>
-          </button>
-          <button
-            onClick={deleteProject}
-            className="text-gray-500 hover:text-red-600 transition"
-            title="Delete Project"
-          >
-            <i className="ri-delete-bin-line text-lg"></i>
-          </button>
-        </div>
-      )}
-
       <img
         src={project.imageUrl}
         alt={project.title}
