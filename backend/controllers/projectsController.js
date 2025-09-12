@@ -14,7 +14,8 @@ const getProjects = async (req, res) => {
 
 const postProject = async (req, res) => {
   try {
-    const { title, description, tags, codeLink, isFinished, link } = req.body
+    const { title, description, tags, codeLink, link } = req.body
+    const isFinished = req.body.isFinished === 'true'
     const imageUrl = req.file ? req.file.path : null;
     if (!title || !description || !tags || !codeLink) {
       return res.status(400).json({ err: 'All fields should be filled' })
@@ -71,7 +72,7 @@ const deleteProject = async (req, res) => {
     if (!project) {
       return res.status(400).json({ err: 'Project not found' })
     }
-    await project.delete()
+    await project.deleteOne()
     res.status(200).json({ msg: 'Project deleted successfully' })
   } catch (err) {
     console.log(err)
