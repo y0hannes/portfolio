@@ -1,4 +1,3 @@
-
 const { getProjects,
   postProject,
   updateProject,
@@ -11,16 +10,16 @@ const {
 } = require('../controllers/messageController')
 
 const { login, authenticateAdmin } = require('../controllers/authController')
-
+const upload = require('../middlewares/upload')
 
 const express = require('express')
 const routes = express.Router()
 
 routes.post('/login', login)
 routes.get('/projects', getProjects)
-routes.post('/projects', postProject)
-routes.put('/projects/:slug', updateProject)
-routes.delete('/projects/:slug', deleteProject)
+routes.post('/projects', upload.single('image'), postProject)
+routes.put('/projects/:id', updateProject)
+routes.delete('/projects/:id', deleteProject)
 routes.get('/messages', authenticateAdmin, getMessages)
 routes.post('/messages', createMessage)
 

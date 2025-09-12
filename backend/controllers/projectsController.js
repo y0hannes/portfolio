@@ -14,21 +14,29 @@ const getProjects = async (req, res) => {
 
 const postProject = async (req, res) => {
   try {
-    const { title, description, tags, codeLink, demoLink, imageURL } = req.body
-    if (!title || !description || !tags || !codeLink || !demoLink || imageURL) {
-      return res.send({ err: 'All fields should be filled' })
+    const { title, description, tags, codeLink, isFinished, link } = req.body
+    const imageUrl = req.file ? req.file.path : null;
+    if (!title || !description || !tags || !codeLink) {
+      return res.status(400).json({ err: 'All fields should be filled' })
     }
+    const parsedTags = tags.split(',').map(tag => tag.trim())
+
     const project = new Project({
       title,
       description,
-      tags,
+      tags: parsedTags,
       codeLink,
-      demoLink,
-      imageURL
+      isFinished,
+      link,
+      imageUrl
     })
     await project.save()
-    res.status(201).json({ msg: 'Project added successfully', project: project })
+    res.status(201).json({ msg: 'Project added successfully' })
   } catch (err) {
+    if (err.name === 'ValidationError') {
+      const messages = Object.values(err.errors).map(val => val.message);
+      return res.status(400).json({ err: messages });
+    }
     console.error(err)
     res.status(500).json({ err: 'Server error' })
   }
@@ -36,12 +44,12 @@ const postProject = async (req, res) => {
 
 const updateProject = async (req, res) => {
   try {
-    const { slug } = req.params
-    const { title, description, tags, codeLink, demoLink, imageURL } = req.body
+    const { id } = req.params
+    const { title, description, tags, codeLink, imageUrl } = req.body
 
     const updatedProject = await Project.findOneAndUpdate(
-      { slug },
-      { title, description, tags, codeLink, demoLink, imageURL },
+      { id },
+      { title, description, tags, codeLink, imageUrl },
       { new: true, runValidators: true }
     )
 
@@ -58,8 +66,8 @@ const updateProject = async (req, res) => {
 
 const deleteProject = async (req, res) => {
   try {
-    const { slug } = req.params
-    const project = await Project.findOne({ slug })
+    const { id } = req.params.id
+    const project = await Project.findById(id)
     if (!project) {
       return res.status(400).json({ err: 'Project not found' })
     }
@@ -70,6 +78,5 @@ const deleteProject = async (req, res) => {
     res.status(500).json({ err: 'Server error' })
   }
 }
-
 
 module.exports = { getProjects, postProject, updateProject, deleteProject }

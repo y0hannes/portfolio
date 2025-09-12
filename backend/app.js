@@ -16,6 +16,15 @@ app.get('', (req, res) => {
 })
 app.use('/api', routes)
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(err.status || 500).json({
+    error: {
+      message: err.message || 'Internal Server Error',
+    },
+  });
+});
+
 const PORT = 3000
 app.listen(PORT, () => {
   console.log(`app running on port ${PORT}`)
