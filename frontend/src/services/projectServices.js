@@ -6,19 +6,21 @@ const getAll = async () => {
   const response = await axios.get(baseUrl)
   return response.data
 }
-const config = loginServices.config()
 
 const create = async (formData) => {
+  const config = loginServices.config()
   const response = await axios.post(baseUrl, formData, config)
   return response.data
 }
 
 const update = async (id, formData) => {
+  const config = loginServices.config()
   const response = await axios.put(`${baseUrl}/${id}`, formData, config)
   return response.data
 }
 
 const remove = async (id) => {
+  const config = loginServices.config()
   const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response.data
 }

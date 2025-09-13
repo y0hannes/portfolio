@@ -10,7 +10,7 @@ const setToken = (newTtoken) => {
 const config = () => {
   return {
     headers: {
-      Authorization: token,
+      authorization: token,
       'Content-Type': 'multipart/form-data'
     }
   }

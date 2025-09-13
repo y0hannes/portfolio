@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const savedUser = window.localStorage.getItem('Admin')
-    setAdmin(JSON.parse(savedUser))
+    loginServices.setToken(savedUser.token)
   }, [])
 
   const login = async (username, password) => {
