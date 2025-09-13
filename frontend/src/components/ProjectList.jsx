@@ -6,9 +6,7 @@ const ProjectList = () => {
   const [projects, setProjects] = useState([])
   const [editingProject, setEditingProject] = useState(null)
 
-  useEffect(() => {
-    projectServices.getAll().then(data => setProjects(data))
-  }, [])
+  projectServices.getAll().then(data => setProjects(data))
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this project?')) {

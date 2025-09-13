@@ -2,6 +2,7 @@ import Form from './Form'
 import Info from './Info'
 
 const Contact = () => {
+  const currentYear = new Date().getFullYear()
   return (
     <section
       id="contact"
@@ -16,7 +17,7 @@ const Contact = () => {
       </div>
 
       <footer className="text-center mt-16 text-sm text-gray-500">
-        © 2025
+        © {currentYear}
       </footer>
     </section>
   )

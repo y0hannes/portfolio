@@ -32,7 +32,7 @@ const ProjectForm = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className=" flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-sm p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
         <form className="space-y-4"
           encType="multipart/form-data"
