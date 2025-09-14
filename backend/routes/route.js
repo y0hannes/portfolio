@@ -6,7 +6,8 @@ const { getProjects,
 
 const {
   getMessages,
-  createMessage
+  createMessage,
+  deleteMessage
 } = require('../controllers/messageController')
 
 const { login, authenticateAdmin } = require('../controllers/authController')
@@ -17,10 +18,11 @@ const routes = express.Router()
 
 routes.post('/login', login)
 routes.get('/projects', getProjects)
-routes.post('/projects', upload.single('image'), postProject)
-routes.put('/projects/:id', updateProject)
-routes.delete('/projects/:id', deleteProject)
+routes.post('/projects', authenticateAdmin, upload.single('image'), postProject)
+routes.put('/projects/:id', authenticateAdmin, upload.single('image'), updateProject)
+routes.delete('/projects/:id', authenticateAdmin, deleteProject)
 routes.get('/messages', authenticateAdmin, getMessages)
 routes.post('/messages', createMessage)
+routes.delete('/messages/:id', authenticateAdmin, deleteMessage)
 
 module.exports = routes
