@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
+require('dotenv').config()
 
-const dbURI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/portfolioDB'
+const dbURI = process.env.dbURI
 
 const connectDB = async () => {
   try {
