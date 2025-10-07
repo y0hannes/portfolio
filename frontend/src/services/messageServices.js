@@ -8,10 +8,14 @@ const getAll = async () => {
   return response.data
 }
 
+const create = async (newMessage ) => {
+  const response = await axios.post(baseUrl, newMessage)
+  return response.data
+}
 const remove = async (id) => {
   const config = loginServices.config()
   const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response.data
 }
 
-export default { getAll, remove }
+export default { getAll, create, remove }

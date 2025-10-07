@@ -7,9 +7,22 @@ export const AuthProvider = ({ children }) => {
   const [admin, setAdmin] = useState(null)
 
   useEffect(() => {
-    const savedUser = window.localStorage.getItem('Admin')
-    loginServices.setToken(savedUser.token)
-  }, [])
+    const savedUserString = window.localStorage.getItem('Admin');
+
+    if (savedUserString) {
+      try {
+        const savedUser = JSON.parse(savedUserString);
+        if (savedUser?.token) {
+          setAdmin(savedUser);
+          loginServices.setToken(savedUser.token);
+        }
+      } catch (error) {
+        console.error('Failed to parse saved user from localStorage:', error);
+        localStorage.removeItem('Admin');
+      }
+    }
+  }, []);
+
 
   const login = async (username, password) => {
     try {

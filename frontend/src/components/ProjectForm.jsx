@@ -102,7 +102,6 @@ const ProjectForm = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
               value={link}
               onChange={(event) => setLink(event.target.value)}
-              required
             />
           </div>
           <div className="flex flex-col">
