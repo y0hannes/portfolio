@@ -11,9 +11,7 @@ app.use(cors())
 
 connectDB()
 
-app.get('', (req, res) => {
-  res.send('Here is my profile')
-})
+app.use(express.static('dist'))
 app.use('/api', routes)
 
 app.use((err, req, res, next) => {

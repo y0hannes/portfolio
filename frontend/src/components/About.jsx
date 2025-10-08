@@ -24,7 +24,7 @@ const About = () => {
 
         <div className="flex-1 basis-64 flex justify-center items-center">
           <div className="w-64 h-64 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex justify-center items-center text-gray-400 text-xl">
-            <img src="../public/photo.png" alt="Placeholder photo" />
+            <img src="photo.png" alt="Placeholder photo" />
           </div>
         </div>
       </div>
