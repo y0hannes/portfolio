@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'https://portfolio-v3x6.onrender.com',
         changeOrigin: true,
       },
     },
