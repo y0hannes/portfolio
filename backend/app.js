@@ -9,6 +9,7 @@ require('dotenv').config()
 app.use(express.json())
 app.use(cors({
   origin: 'https://yohannes-muluken.vercel.app/',
+  methods: ["GET", "POST"],
   credentials: true
 }));
 

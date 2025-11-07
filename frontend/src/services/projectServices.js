@@ -1,6 +1,6 @@
 import axios from 'axios'
 import loginServices from './loginServices'
-const baseUrl = '/api/projects'
+const baseUrl = 'https://portfolio-v3x6.onrender.com/api/projects'
 
 const getAll = async () => {
   const response = await axios.get(baseUrl)

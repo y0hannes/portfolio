@@ -1,6 +1,6 @@
 import axios from 'axios'
 import loginServices from './loginServices'
-const baseUrl = '/api/messages'
+const baseUrl = 'https://portfolio-v3x6.onrender.com/api/messages'
 
 const getAll = async () => {
   const config = loginServices.config()
