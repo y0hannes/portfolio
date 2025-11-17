@@ -9,14 +9,17 @@ require('dotenv').config()
 app.use(express.json())
 app.use(cors({
   origin: 'https://yohannes-muluken.vercel.app/',
-  methods: ["GET", "POST"],
-  credentials: true
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true,
 }));
 
 
 connectDB()
 
-app.use(express.static('dist'))
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 app.use('/api', routes)
 
 app.use((err, req, res, next) => {
@@ -28,7 +31,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = 3000
-app.listen(PORT, () => {
-  console.log(`app running on port ${PORT}`)
-})
+// const PORT = 3000
+// app.listen(PORT, () => {
+//   console.log(`app running on port ${PORT}`)
+// })

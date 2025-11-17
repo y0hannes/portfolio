@@ -1,6 +1,8 @@
 import axios from 'axios'
 import loginServices from './loginServices'
-const baseUrl = 'https://portfolio-v3x6.onrender.com/api/messages'
+
+const API_URL = import.meta.env.API_URL;
+const baseUrl = `${API_URL}/api/messages`
 
 const getAll = async () => {
   const config = loginServices.config()
@@ -8,7 +10,7 @@ const getAll = async () => {
   return response.data
 }
 
-const create = async (newMessage ) => {
+const create = async (newMessage) => {
   const response = await axios.post(baseUrl, newMessage)
   return response.data
 }

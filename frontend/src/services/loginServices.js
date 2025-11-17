@@ -1,5 +1,7 @@
 import axios from 'axios'
-const baseUrl = 'https://portfolio-v3x6.onrender.com/api/login'
+
+const API_URL = import.meta.env.API_URL;
+const baseUrl = `${API_URL}/api/login`
 
 let token = null
 
