@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('Admin', JSON.stringify(userData))
       return true
     } catch (error) {
-      console.error('Login failed:', error)
+      console.error('Login failed:', error.message, error.response?.data)
       return false
     }
   }

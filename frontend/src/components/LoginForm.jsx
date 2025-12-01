@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 
 const LoginForm = () => {
@@ -11,8 +11,10 @@ const LoginForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault()
     const logged = await login(username, password)
-    if(logged){
+    if (logged) {
       navigate('/admin')
+    } else {
+      alert('Login failed. Check console for details.')
     }
   }
 
