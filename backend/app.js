@@ -8,7 +8,7 @@ const app = express()
 require('dotenv').config()
 app.use(express.json())
 app.use(cors({
-  origin: 'https://yohannes-muluken.vercel.app/',
+  origin: 'https://yohannes-muluken.vercel.app',
   methods: "GET,POST,PUT,DELETE",
   credentials: true,
 }));
@@ -31,7 +31,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// const PORT = 3000
-// app.listen(PORT, () => {
-//   console.log(`app running on port ${PORT}`)
-// })
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => {
+  console.log(`app running on port ${PORT}`)
+})
