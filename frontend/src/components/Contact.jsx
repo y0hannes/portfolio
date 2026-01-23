@@ -1,26 +1,26 @@
-import Form from './Form'
-import Info from './Info'
-
-const Contact = () => {
-  const currentYear = new Date().getFullYear()
+export default function Contact() {
   return (
-    <section
-      id="contact"
-      className="min-h-screen py-20 px-6 bg-white flex flex-col items-center justify-center">
-      <h2 className="text-3xl font-semibold text-gray-900 mb-12 text-center">
-        Get In Touch
-      </h2>
+    <section id="contact" className="py-32 px-6">
+      <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12">
+        <div className="bg-card backdrop-blur-glass p-8 rounded-2xl border border-white/10">
+          <h3 className="text-2xl font-semibold">Get In Touch</h3>
+          <p className="mt-4 text-slate-400">alex@example.com</p>
+          <p className="mt-2 text-slate-400">San Francisco, CA</p>
+        </div>
 
-      <div className="grid md:grid-cols-2 gap-12 w-full max-w-6xl">
-        < Info />
-        < Form />
+        <form className="bg-card backdrop-blur-glass p-8 rounded-2xl border border-white/10 space-y-4">
+          <input className="w-full p-3 rounded bg-black/40" placeholder="Name" />
+          <input className="w-full p-3 rounded bg-black/40" placeholder="Email" />
+          <textarea
+            rows="4"
+            className="w-full p-3 rounded bg-black/40"
+            placeholder="Tell me about your project..."
+          />
+          <button className="w-full py-3 bg-accent text-black rounded-lg font-semibold">
+            Send Message →
+          </button>
+        </form>
       </div>
-
-      <footer className="text-center mt-16 text-sm text-gray-500">
-        © {currentYear}
-      </footer>
     </section>
-  )
+  );
 }
-
-export default Contact

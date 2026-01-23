@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Activity Monitor
+Exec=/home/pc/Activity Monitor/activity-monitor
+Terminal=true
+Type=Application
+Categories=Programming
+Version=1.0
