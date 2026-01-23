@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 
 const getMessages = async (req, res) => {
   try {
-
     const messages = await Message.find()
     res.status(200).json(messages)
   }
