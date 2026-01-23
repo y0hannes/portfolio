@@ -7,13 +7,19 @@ const app = express()
 
 require('dotenv').config()
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+  origin: 'https://yohannes-muluken.vercel.app',
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true,
+}));
+
 
 connectDB()
 
-app.get('', (req, res) => {
-  res.send('Here is my profile')
-})
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 app.use('/api', routes)
 
 app.use((err, req, res, next) => {
@@ -25,7 +31,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`app running on port ${PORT}`)
 })

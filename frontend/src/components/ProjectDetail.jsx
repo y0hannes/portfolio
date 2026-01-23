@@ -1,8 +1,7 @@
 const ProjectDetail = ({ project }) => {
+
   return (
-    <div
-      className="bg-gray-50 border border-gray-200 rounded-xl p-6 flex flex-col w-full max-w-sm shadow-sm transition-transform duration-300 hover:-translate-y-1"
-    >
+    <div className="relative bg-gray-50 border border-gray-200 rounded-xl p-6 flex flex-col w-full max-w-sm shadow-sm transition-transform duration-300 hover:-translate-y-1">
       <img
         src={project.imageUrl}
         alt={project.title}
@@ -23,6 +22,7 @@ const ProjectDetail = ({ project }) => {
           </span>
         ))}
       </div>
+
       <div className="flex justify-between mt-auto">
         <a
           href={project.codeLink}
@@ -34,8 +34,8 @@ const ProjectDetail = ({ project }) => {
           href={project.link}
           className="inline-flex items-center gap-1 text-sm bg-gray-900 text-gray-100 px-4 py-2 rounded-md hover:bg-gray-800 transition"
         >
-          <i className="ri-external-link-line"></i> 
-          {project.isFinished ? "View" : "In Progress" }
+          <i className="ri-external-link-line"></i>
+          {project.isFinished ? "View" : "In Progress"}
         </a>
       </div>
     </div>

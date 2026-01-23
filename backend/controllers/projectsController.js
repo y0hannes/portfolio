@@ -1,5 +1,5 @@
 const express = require('express')
-const Project = require('../models/projetModel')
+const Project = require('../models/projectModel')
 
 const getProjects = async (req, res) => {
   try {
@@ -7,12 +7,11 @@ const getProjects = async (req, res) => {
     res.status(200).json(projects)
   }
   catch (err) {
-    console.log(err)
-    res.status(500).json({ message: 'Server error' })
+    res.status(500).json({ err: 'Server error' })
   }
 }
 
-const postProject = async (req, res) => {
+const postProject = async (req, res, next) => {
   try {
     const { title, description, tags, codeLink, link } = req.body
     const isFinished = req.body.isFinished === 'true'
@@ -38,18 +37,18 @@ const postProject = async (req, res) => {
       const messages = Object.values(err.errors).map(val => val.message);
       return res.status(400).json({ err: messages });
     }
-    console.error(err)
+    next(err)
     res.status(500).json({ err: 'Server error' })
   }
 }
 
-const updateProject = async (req, res) => {
+const updateProject = async (req, res, next) => {
   try {
     const { id } = req.params
     const { title, description, tags, codeLink, imageUrl } = req.body
 
-    const updatedProject = await Project.findOneAndUpdate(
-      { id },
+    const updatedProject = await Project.findByIdAndUpdate(
+      id,
       { title, description, tags, codeLink, imageUrl },
       { new: true, runValidators: true }
     )
@@ -60,22 +59,21 @@ const updateProject = async (req, res) => {
 
     res.status(200).json({ msg: 'Project updated successfully', project: updatedProject })
   } catch (err) {
-    console.error(err)
+    next(err)
     res.status(500).json({ err: 'Server error' })
   }
 }
 
-const deleteProject = async (req, res) => {
+const deleteProject = async (req, res, next) => {
   try {
-    const { id } = req.params.id
-    const project = await Project.findById(id)
+    const { id } = req.params
+    const project = await Project.findByIdAndDelete(id)
     if (!project) {
       return res.status(400).json({ err: 'Project not found' })
     }
-    await project.deleteOne()
     res.status(200).json({ msg: 'Project deleted successfully' })
   } catch (err) {
-    console.log(err)
+    next(err)
     res.status(500).json({ err: 'Server error' })
   }
 }

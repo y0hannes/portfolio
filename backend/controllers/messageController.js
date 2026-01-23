@@ -7,7 +7,6 @@ const getMessages = async (req, res) => {
     res.status(200).json(messages)
   }
   catch (err) {
-    console.log(err)
     res.status(500).json({ err: 'Server error' })
   }
 }
@@ -23,23 +22,21 @@ const createMessage = async (req, res) => {
 
     res.status(201).json({ msg: 'Message created' })
   } catch (err) {
-    console.log(err)
     res.status(500).json({ err: 'Server error' })
   }
 }
 
-const deleteMessage = async (req, res) => {
+const deleteMessage = async (req, res, next) => {
   try {
-    const id = req.params.id
-    const message = await Message.findById(id)
+    const { id } = req.params
+    const message = await Message.findByIdAndDelete(id)
     if (!message) {
       return res.status(404).json({ err: 'Message does not exist' })
     }
-    await message.deleteOne()
-    res.status(200).json({ msg: 'Message deleted successfully' })
-
-  } catch (err) {
-    console.log(err)
+    res.status(200).json({ msg: 'Message deleted' })
+  }
+  catch (err) {
+    next(err)
     res.status(500).json({ err: 'Server error' })
   }
 }

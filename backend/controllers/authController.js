@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 require('dotenv').config()
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
+const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH
 const JWT_SECRET = process.env.JWT_SECRET
 
 const login = async (req, res) => {
@@ -12,7 +13,7 @@ const login = async (req, res) => {
     return res.status(400).json({ err: 'Please provide username and password' })
   }
   const isUsernameValid = username === ADMIN_USERNAME
-  const isPasswordValid = password === ADMIN_PASSWORD
+  const isPasswordValid = await bcrypt.compare(password, ADMIN_PASSWORD_HASH)
 
   if (!isUsernameValid || !isPasswordValid) {
     return res.status(400).json({ err: 'Invalid credentials' })

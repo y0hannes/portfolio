@@ -43,13 +43,13 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className="min-h-screen py-20 px-4 bg-gray-50 text-center"
+      className="py-16 px-4 bg-gray-50 text-center"
     >
       <h2 className="text-3xl font-semibold text-gray-900 mb-12">
         Skills & Technologies
       </h2>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-8 max-w-6xl mx-auto">
         {skillsData.map((skillCategory, index) => (
           <div
             key={index}

@@ -1,4 +1,4 @@
-import { getMessages, createMessage } from "./Services"
+import messageServices from '../services/messageServices'
 import { useState } from "react"
 const Form = () => {
 
@@ -10,7 +10,7 @@ const Form = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const newMessage = ({ name, email, subject, content })
-    createMessage(newMessage)
+    messageServices.create(newMessage)
       .then(response => {
         setName('')
         setEmail('')
