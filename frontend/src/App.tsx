@@ -2,12 +2,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { AdminLayout } from './components/layout/AdminLayout';
 
+import { Home } from './pages/public/Home';
+
 // Placeholder Pages
-const Home = () => (
-  <div className='pt-32 pb-20 text-center'>
-    <h1 className='text-4xl text-white'>Loading...</h1>
-  </div>
-);
 const Login = () => <div className='text-white'>Login Page</div>;
 const Dashboard = () => <div className='text-white'>Dashboard</div>;
 const Messages = () => <div className='text-white'>Messages</div>;

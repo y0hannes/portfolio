@@ -2,20 +2,11 @@ import { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Github, Linkedin, Twitter, Mail } from 'lucide-react';
-import { clsx } from 'clsx';
+
 
 export const Layout = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -32,40 +23,38 @@ export const Layout = () => {
   return (
     <div className="min-h-screen bg-dark text-white selection:bg-cyan-500/30">
       {/* Navbar */}
-      <nav className={clsx(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "py-4 bg-dark/80 backdrop-blur-xl border-b border-white/5" : "py-8 bg-transparent"
-      )}>
-        <div className="container mx-auto px-6 flex items-center justify-between">
-          <Link to="/" className="text-2xl font-bold font-display tracking-tighter">
-            DEV<span className="text-cyan-400">.</span>O
-          </Link>
-
+      {/* Navbar - Centered Floating Taskbar */}
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+        <div className="flex items-center gap-1 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full p-2 pl-6 shadow-2xl">
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-white/70 hover:text-cyan-400 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-all"
               >
                 {link.name}
               </a>
             ))}
-            <Link
-              to="/admin"
-              className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white/5 hover:bg-white/10 rounded-full border border-white/10 transition-colors"
-            >
-              Admin
-            </Link>
           </div>
+
+          <div className="hidden md:block w-px h-4 bg-white/10 mx-2" />
+
+          {/* Admin Link */}
+          <Link
+            to="/admin"
+            className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white/5 hover:bg-cyan-500 hover:text-white rounded-full border border-white/10 transition-all"
+          >
+            Admin
+          </Link>
 
           {/* Mobile Menu Button */}
           <button 
-            className="md:hidden p-2 text-white/80 hover:text-white"
+            className="md:hidden p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </nav>
@@ -100,11 +89,10 @@ export const Layout = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-black/40 border-t border-white/5 py-12">
+      <footer className="bg-white/5 backdrop-blur-md border-t border-white/10 py-12 mt-20">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             <div className="text-center md:text-left">
-              <h3 className="text-xl font-bold font-display mb-2">DEV.O</h3>
               <p className="text-white/40 text-sm">Building digital experiences that matter.</p>
             </div>
             
