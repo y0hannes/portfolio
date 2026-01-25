@@ -1,19 +1,26 @@
-@import "tailwindcss";
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
-@tailwind utilities; */
+@tailwind utilities;
 
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  body {
+    @apply bg-dark text-white font-sans antialiased overflow-x-hidden;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+.glass-panel {
+  @apply bg-glass backdrop-blur-lg border border-white/10 shadow-xl;
 }
 
-body {
-  font-family: "Segoe UI", sans-serif;
-  @apply bg-gray-800 text-grey-50;
-} */
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white/20 rounded-full hover:bg-white/30 transition-colors;
+}
