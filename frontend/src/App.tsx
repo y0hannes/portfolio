@@ -4,11 +4,10 @@ import { AdminLayout } from './components/layout/AdminLayout';
 
 import { Home } from './pages/public/Home';
 
-// Placeholder Pages
-const Login = () => <div className='text-white'>Login Page</div>;
-const Dashboard = () => <div className='text-white'>Dashboard</div>;
-const Messages = () => <div className='text-white'>Messages</div>;
-const Projects = () => <div className='text-white'>Projects</div>;
+import { Dashboard } from './pages/admin/Dashboard';
+import { Login } from './pages/admin/Login';
+import { Messages } from './pages/admin/Messages';
+import { Projects } from './pages/admin/Projects';
 
 function App() {
   return (

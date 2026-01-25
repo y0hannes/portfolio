@@ -16,7 +16,6 @@ export const Layout = () => {
   const navLinks = [
     { name: 'Work', href: '#work' },
     { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -112,7 +111,7 @@ export const Layout = () => {
             </div>
           </div>
           <div className="mt-12 pt-8 border-t border-white/5 text-center text-white/20 text-sm">
-            © {new Date().getFullYear()} All rights reserved. Built with React & Tailwind.
+            © {new Date().getFullYear()} All rights reserved.
           </div>
         </div>
       </footer>

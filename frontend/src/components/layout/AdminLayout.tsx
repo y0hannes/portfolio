@@ -20,6 +20,7 @@ export const AdminLayout = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminAuthenticated');
+    localStorage.removeItem('token');
     navigate('/admin/login');
   };
 
