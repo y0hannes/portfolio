@@ -1,6 +1,7 @@
-require('dotenv').config()
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import dotenv from 'dotenv';
+dotenv.config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -13,10 +14,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'projects',
     allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
-  },
+  } as any, 
 });
 
-module.exports = {
-  cloudinary,
-  storage,
-};
+export { cloudinary, storage };

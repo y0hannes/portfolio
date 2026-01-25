@@ -1,7 +1,7 @@
-const Message = require('../models/messageModel')
-const mongoose = require('mongoose')
+import { Request, Response, NextFunction } from 'express';
+import Message from '../models/messageModel';
 
-const getMessages = async (req, res) => {
+export const getMessages = async (req: Request, res: Response) => {
   try {
     const messages = await Message.find()
     res.status(200).json(messages)
@@ -11,7 +11,7 @@ const getMessages = async (req, res) => {
   }
 }
 
-const createMessage = async (req, res) => {
+export const createMessage = async (req: Request, res: Response) => {
   try {
     const { name, email, content } = req.body
     if (!name || !email || !content) {
@@ -26,7 +26,7 @@ const createMessage = async (req, res) => {
   }
 }
 
-const deleteMessage = async (req, res, next) => {
+export const deleteMessage = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
     const message = await Message.findByIdAndDelete(id)
@@ -40,5 +40,3 @@ const deleteMessage = async (req, res, next) => {
     res.status(500).json({ err: 'Server error' })
   }
 }
-
-module.exports = { getMessages, createMessage, deleteMessage }
