@@ -14,8 +14,8 @@ const getProjects = async (req, res) => {
 const postProject = async (req, res, next) => {
   try {
     const { title, description, tags, codeLink, link } = req.body
-    const isFinished = req.body.isFinished === 'true'
-    const imageUrl = req.file ? req.file.path : null;
+    const isFinished = req.body.isFinished === 'true' || req.body.isFinished === true
+    const imageUrl = req.file ? req.file.path : req.body.imageUrl;
     if (!title || !description || !tags || !codeLink) {
       return res.status(400).json({ err: 'All fields should be filled' })
     }
@@ -45,7 +45,8 @@ const postProject = async (req, res, next) => {
 const updateProject = async (req, res, next) => {
   try {
     const { id } = req.params
-    const { title, description, tags, codeLink, imageUrl } = req.body
+    const { title, description, tags, codeLink } = req.body
+    const imageUrl = req.file ? req.file.path : req.body.imageUrl;
 
     const updatedProject = await Project.findByIdAndUpdate(
       id,

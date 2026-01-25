@@ -14,12 +14,14 @@ export const AdminLayout = () => {
     if (auth !== 'true') {
       navigate('/admin/login');
     } else {
+      // eslint-disable-next-line
       setIsAuthenticated(true);
     }
   }, [navigate, location]);
 
   const handleLogout = () => {
     localStorage.removeItem('isAdminAuthenticated');
+    localStorage.removeItem('token');
     navigate('/admin/login');
   };
 

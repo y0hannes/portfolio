@@ -54,12 +54,12 @@ export const Projects = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {projects.map((project) => (
-          <div key={project.id} className="group relative bg-white/5 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-colors">
+          <div key={project._id} className="group relative bg-white/5 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-colors">
             <div className="aspect-video bg-black/50 relative">
               <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                 <button 
-                  onClick={() => handleDelete(project.id)}
+                  onClick={() => handleDelete(project._id)}
                   className="p-3 bg-red-500/20 text-red-400 rounded-full hover:bg-red-500 hover:text-white transition-colors"
                 >
                   <Trash2 size={20} />
@@ -70,7 +70,7 @@ export const Projects = () => {
               <h3 className="font-bold text-lg mb-2">{project.title}</h3>
               <p className="text-white/60 text-sm mb-4 line-clamp-2">{project.description}</p>
               <div className="flex flex-wrap gap-2">
-                {project.tags.map(tag => (
+                {project.tags && Array.isArray(project.tags) && project.tags.map(tag => (
                   <span key={tag} className="px-2 py-1 text-xs bg-white/5 rounded-md text-white/60">
                     {tag}
                   </span>
@@ -109,6 +109,16 @@ export const Projects = () => {
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Image URL</label>
                   <input {...register('imageUrl', { required: true })} placeholder="https://..." className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none" />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-white/60">Code Link</label>
+                  <input {...register('codeLink', { required: true })} placeholder="https://github.com/..." className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none" />
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" {...register('isFinished')} id="isFinished" className="w-4 h-4 rounded border-white/10 bg-white/5 focus:ring-cyan-400 focus:ring-offset-0" />
+                  <label htmlFor="isFinished" className="text-sm font-medium text-white/60">Project is Finished</label>
                 </div>
 
                 <div className="space-y-2">
