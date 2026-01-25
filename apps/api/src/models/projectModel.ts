@@ -1,17 +1,8 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import validator from 'validator';
+import { Project as SharedProject } from '@shared';
 
-export interface IProject extends Document {
-  title: string;
-  description: string;
-  tags: string[];
-  codeLink: string;
-  isFinished: boolean;
-  link?: string;
-  imageUrl?: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+export interface IProject extends Omit<SharedProject, '_id'>, Document {}
 
 const projectSchema: Schema = new mongoose.Schema({
   title: {

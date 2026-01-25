@@ -1,14 +1,8 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import validator from 'validator';
+import { Message as SharedMessage } from '@shared';
 
-export interface IMessage extends Document {
-  name: string;
-  email: string;
-  subject: string;
-  content: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+export interface IMessage extends Omit<SharedMessage, '_id'>, Document {}
 
 const messageSchema: Schema = new mongoose.Schema({
   name: {
