@@ -1,0 +1,11 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "packageManager": "pnpm@10.18.3",
+  "scripts": {
+    "dev:web": "pnpm --filter ./apps/web dev",
+    "dev:api": "pnpm --filter ./apps/api dev",
+    "dev": "pnpm run dev:web & pnpm run dev:api",
+    "build": "pnpm -r build"
+  }
+}

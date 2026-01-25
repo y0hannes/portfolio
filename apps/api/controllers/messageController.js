@@ -13,11 +13,11 @@ const getMessages = async (req, res) => {
 
 const createMessage = async (req, res) => {
   try {
-    const { name, email, subject, content } = req.body
-    if (!name || !email || !subject || !content) {
+    const { name, email, content } = req.body
+    if (!name || !email || !content) {
       return res.status(400).json({ err: 'All fields should be field' })
     }
-    const message = new Message({ name, email, subject, content })
+    const message = new Message({ name, email, content })
     await message.save()
 
     res.status(201).json({ msg: 'Message created' })
