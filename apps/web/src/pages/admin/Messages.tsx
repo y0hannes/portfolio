@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { api } from '../../services/api';
-import { Mail, Clock } from 'lucide-react';
+import { Mail, Clock, Trash2 } from 'lucide-react';
 import { type Message } from '../../../../types/Message';
 
 export const Messages = () => {
@@ -13,6 +13,13 @@ export const Messages = () => {
   useEffect(() => {
     loadMessages();
   }, []);
+
+  const handleDelete = async (id: string) => {
+    if (confirm('Are you sure you want to delete this message?')) {
+      await api.deleteMessage(id);
+      loadMessages();
+    }
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -46,9 +53,17 @@ export const Messages = () => {
                     <div className="text-sm text-cyan-400">{msg.email}</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-2 text-white/40 text-xs">
-                  <Clock size={14} />
-                  <span>{formatDate(msg.createdAt as string)}</span>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 text-white/40 text-xs">
+                    <Clock size={14} />
+                    <span>{formatDate(msg.createdAt as string)}</span>
+                  </div>
+                  <button 
+                    onClick={() => handleDelete(msg._id!)}
+                    className="p-2 text-white/20 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                  >
+                    <Trash2 size={18} />
+                  </button>
                 </div>
               </div>
               <p className="text-white/80 leading-relaxed pl-13 ml-13 border-l-2 border-white/10 pl-4">

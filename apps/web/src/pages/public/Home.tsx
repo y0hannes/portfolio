@@ -4,6 +4,7 @@ import { ArrowRight, Code2, Cpu, Globe, Send, ExternalLink } from 'lucide-react'
 import { api } from '../../services/api';
 import { type Project } from '../../../../types/Project';
 import { useForm } from 'react-hook-form';
+import { useToast } from '../../components/common/Toast';
 
 interface ContactFormData {
   name: string;
@@ -13,6 +14,7 @@ interface ContactFormData {
 
 export const Home = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const { addToast } = useToast();
   const { register, handleSubmit, reset } = useForm<ContactFormData>();
 
   useEffect(() => {
@@ -20,9 +22,13 @@ export const Home = () => {
   }, []);
 
   const onSubmit = async (data: ContactFormData) => {
-    await api.sendMessage(data);
-    reset();
-    alert('Message sent successfully!'); // Replace with better UI feedback
+    try {
+      await api.sendMessage(data);
+      reset();
+      addToast('Message sent successfully!');
+    } catch (error) {
+      addToast('Failed to send message', 'error');
+    }
   };
 
   return (

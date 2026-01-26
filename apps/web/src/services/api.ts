@@ -40,12 +40,20 @@ const getProjects = async (): Promise<Project[]> => {
   }
 };
 
-const addProject = async (project: Omit<Project, '_id'>): Promise<void> => {
-  await API_create.post('/projects', project);
+const addProject = async (formData: FormData): Promise<void> => {
+  await API_create.post('/projects', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 };
 
 const deleteProject = async (id: string): Promise<void> => {
   await API_create.delete(`/projects/${id}`);
+};
+
+const updateProject = async (id: string, formData: FormData): Promise<void> => {
+  await API_create.put(`/projects/${id}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 };
 
 const getMessages = async (): Promise<Message[]> => {
@@ -62,11 +70,17 @@ const sendMessage = async (data: Omit<Message, '_id'>): Promise<void> => {
   await API_create.post('/messages', data);
 };
 
+const deleteMessage = async (id: string): Promise<void> => {
+  await API_create.delete(`/messages/${id}`);
+};
+
 export const api = {
   authAdmin,
   getProjects,
   addProject,
+  updateProject,
   deleteProject,
   getMessages,
   sendMessage,
+  deleteMessage,
 };

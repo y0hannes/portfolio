@@ -14,10 +14,6 @@ const messageSchema: Schema = new mongoose.Schema({
     required: [true, 'Please provide your email address.'],
     validate: [(val: string) => val && validator.isEmail(val), 'Please provide a valid email address.'],
   },
-  subject: {
-    type: String,
-    required: [true, 'Please provide subject.'],
-  },
   content: {
     type: String,
     required: [true, 'Please provide a message.'],

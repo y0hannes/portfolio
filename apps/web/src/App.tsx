@@ -8,10 +8,12 @@ import { Dashboard } from './pages/admin/Dashboard';
 import { Login } from './pages/admin/Login';
 import { Messages } from './pages/admin/Messages';
 import { Projects } from './pages/admin/Projects';
+import { ToastProvider } from './components/common/Toast';
 
 function App() {
   return (
-    <BrowserRouter>
+    <ToastProvider>
+      <BrowserRouter>
       <Routes>
         {/* Public Routes */}
         <Route path='/' element={<Layout />}>
@@ -32,7 +34,8 @@ function App() {
         {/* Catch all */}
         <Route path='*' element={<Navigate to='/' replace />} />
       </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ToastProvider>
   );
 }
 

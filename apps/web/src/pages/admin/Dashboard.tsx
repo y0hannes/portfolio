@@ -73,7 +73,7 @@ export const Dashboard = () => {
         />
       </div>
 
-      <div className="p-8 bg-white/5 border border-white/5 rounded-2xl">
+      {/* <div className="p-8 bg-white/5 border border-white/5 rounded-2xl">
         <h2 className="text-xl font-bold mb-6">Recent Activity</h2>
         <div className="space-y-4">
           {[1, 2, 3].map((_, i) => (
@@ -84,7 +84,7 @@ export const Dashboard = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

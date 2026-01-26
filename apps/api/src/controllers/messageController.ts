@@ -1,28 +1,28 @@
 import { Request, Response, NextFunction } from 'express';
 import Message from '../models/messageModel';
 
-export const getMessages = async (req: Request, res: Response) => {
+export const getMessages = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const messages = await Message.find()
     res.status(200).json(messages)
   }
   catch (err) {
-    res.status(500).json({ err: 'Server error' })
+    next(err)
   }
 }
 
-export const createMessage = async (req: Request, res: Response) => {
+export const createMessage = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, email, content } = req.body
     if (!name || !email || !content) {
-      return res.status(400).json({ err: 'All fields should be field' })
+      return res.status(400).json({ err: 'All fields should be filled' })
     }
     const message = new Message({ name, email, content })
     await message.save()
 
     res.status(201).json({ msg: 'Message created' })
   } catch (err) {
-    res.status(500).json({ err: 'Server error' })
+    next(err)
   }
 }
 
@@ -37,6 +37,5 @@ export const deleteMessage = async (req: Request, res: Response, next: NextFunct
   }
   catch (err) {
     next(err)
-    res.status(500).json({ err: 'Server error' })
   }
 }
