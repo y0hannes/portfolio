@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const projectsController_1 = require("../controllers/projectsController");
+const messageController_1 = require("../controllers/messageController");
+const authController_1 = require("../controllers/authController");
+const upload_1 = __importDefault(require("../middlewares/upload"));
+const routes = express_1.default.Router();
+routes.post('/login', authController_1.login);
+routes.get('/projects', projectsController_1.getProjects);
+routes.post('/projects', authController_1.authenticateAdmin, upload_1.default.single('image'), projectsController_1.postProject);
+routes.put('/projects/:id', authController_1.authenticateAdmin, upload_1.default.single('image'), projectsController_1.updateProject);
+routes.delete('/projects/:id', authController_1.authenticateAdmin, projectsController_1.deleteProject);
+routes.get('/messages', authController_1.authenticateAdmin, messageController_1.getMessages);
+routes.post('/messages', messageController_1.createMessage);
+routes.delete('/messages/:id', authController_1.authenticateAdmin, messageController_1.deleteMessage);
+exports.default = routes;
