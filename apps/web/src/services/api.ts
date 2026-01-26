@@ -4,7 +4,7 @@ import type { Project } from '../../../types/Project';
 import type { Message } from '../../../types/Message';
 
 const API_create = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || '/api',
 });
 
 // Add auth token to requests

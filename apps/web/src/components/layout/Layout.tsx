@@ -87,17 +87,11 @@ export const Layout = () => {
             </div>
             
             <div className="flex items-center gap-6">
-              <a href="#" className="p-3 bg-white/5 rounded-full hover:bg-cyan-500/20 hover:text-cyan-400 transition-all">
+              <a href="https://github.com/y0hannes" className="p-3 bg-white/5 rounded-full hover:bg-cyan-500/20 hover:text-cyan-400 transition-all">
                 <Github size={20} />
               </a>
-              <a href="#" className="p-3 bg-white/5 rounded-full hover:bg-cyan-500/20 hover:text-cyan-400 transition-all">
+              <a href="https://linkedin.com/yohannes-muluken" className="p-3 bg-white/5 rounded-full hover:bg-cyan-500/20 hover:text-cyan-400 transition-all">
                 <Linkedin size={20} />
-              </a>
-              <a href="#" className="p-3 bg-white/5 rounded-full hover:bg-cyan-500/20 hover:text-cyan-400 transition-all">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="p-3 bg-white/5 rounded-full hover:bg-cyan-500/20 hover:text-cyan-400 transition-all">
-                <Mail size={20} />
               </a>
             </div>
           </div>
