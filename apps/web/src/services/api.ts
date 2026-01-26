@@ -1,4 +1,7 @@
 import axios from 'axios';
+import type { InternalAxiosRequestConfig } from 'axios';
+import type { Project } from '../../../types/Project';
+import type { Message } from '../../../types/Message';
 
 const API_create = axios.create({
   baseURL: '/api',
@@ -12,10 +15,6 @@ API_create.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   }
   return config;
 });
-
-import type { Project, Message } from '@shared';
-import type { InternalAxiosRequestConfig } from 'axios';
-export type { Project, Message };
 
 const authAdmin = async (password: string): Promise<boolean> => {
   try {

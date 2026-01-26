@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { api, type Project } from '../../services/api';
+import { api } from '../../services/api';
+import { type Project } from '../../../../types/Project';
 import { Trash2, Plus, X, Image as ImageIcon } from 'lucide-react';
 
 
@@ -59,7 +60,7 @@ export const Projects = () => {
               <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover" />
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                 <button 
-                  onClick={() => handleDelete(project._id)}
+                  onClick={() => handleDelete(project._id!)}
                   className="p-3 bg-red-500/20 text-red-400 rounded-full hover:bg-red-500 hover:text-white transition-colors"
                 >
                   <Trash2 size={20} />

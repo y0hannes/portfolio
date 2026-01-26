@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Code2, Cpu, Globe, Send, ExternalLink } from 'lucide-react';
-import { api, type Project } from '../../services/api';
+import { api } from '../../services/api';
+import { type Project } from '../../../../types/Project';
 import { useForm } from 'react-hook-form';
 
 interface ContactFormData {
@@ -143,7 +144,7 @@ export const Home = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, i) => (
               <motion.div
-                key={project.id}
+                key={project._id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

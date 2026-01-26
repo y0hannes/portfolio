@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { api, type Message } from '../../services/api';
+import { api } from '../../services/api';
 import { Mail, Clock } from 'lucide-react';
+import { type Message } from '../../../../types/Message';
 
 export const Messages = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -34,7 +35,7 @@ export const Messages = () => {
           </div>
         ) : (
           messages.map((msg) => (
-            <div key={msg.id} className="group p-6 bg-white/5 border border-white/5 rounded-2xl hover:bg-white/10 transition-colors">
+            <div key={msg._id} className="group p-6 bg-white/5 border border-white/5 rounded-2xl hover:bg-white/10 transition-colors">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center font-bold text-white">
@@ -47,7 +48,7 @@ export const Messages = () => {
                 </div>
                 <div className="flex items-center gap-2 text-white/40 text-xs">
                   <Clock size={14} />
-                  <span>{formatDate(msg.date)}</span>
+                  <span>{formatDate(msg.createdAt as string)}</span>
                 </div>
               </div>
               <p className="text-white/80 leading-relaxed pl-13 ml-13 border-l-2 border-white/10 pl-4">
