@@ -1,8 +1,8 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import validator from 'validator';
-import { Project as SharedProject } from '@shared';
+import { type Project } from '../../../types/Project';
 
-export interface IProject extends Omit<SharedProject, '_id'>, Document {}
+export interface IProject extends Omit<Project, '_id'>, Document {}
 
 const projectSchema: Schema = new mongoose.Schema({
   title: {

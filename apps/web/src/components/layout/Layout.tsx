@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Github, Linkedin, Twitter, Mail } from 'lucide-react';
 
@@ -38,16 +38,6 @@ export const Layout = () => {
               </a>
             ))}
           </div>
-
-          <div className="hidden md:block w-px h-4 bg-white/10 mx-2" />
-
-          {/* Admin Link */}
-          <Link
-            to="/admin"
-            className="px-4 py-2 text-xs font-bold uppercase tracking-wider bg-white/5 hover:bg-cyan-500 hover:text-white rounded-full border border-white/10 transition-all"
-          >
-            Admin
-          </Link>
 
           {/* Mobile Menu Button */}
           <button 
