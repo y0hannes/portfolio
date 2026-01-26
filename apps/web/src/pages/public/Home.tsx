@@ -56,7 +56,7 @@ export const Home = () => {
               </span>
             </h1>
             <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-12 leading-relaxed">
-              I build accessible, pixel-perfect, performant, and over-the-top stylish web applications that leave a lasting impression.
+              I build accessible, pixel-perfect, performant, and reliable tech solutions that leave a lasting impression.
             </p>
             
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -78,58 +78,67 @@ export const Home = () => {
       </section>
 
       {/* About / Skills Section */}
-      <section id="about" className="py-24 bg-black/20">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+      <section id="about" className="py-24 relative overflow-hidden bg-black/40">
+        {/* Section Decor */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/5 rounded-full blur-[140px] pointer-events-none" />
+        
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-4xl font-bold font-display mb-8">
+              <h2 className="text-4xl md:text-5xl font-bold font-display mb-8 leading-tight">
                 Design meets <br />
-                <span className="text-cyan-400">Engineering</span>
+                <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                  Engineering
+                </span>
               </h2>
-              <p className="text-white/60 text-lg leading-relaxed mb-8">
-                I'm a developer who cares deeply about user experience. I don't just write code; I create seamless, interactive journeys. With a background in design and a passion for modern tech, I bridge the gap between aesthetics and functionality.
+              <p className="text-white/60 text-lg leading-relaxed mb-8 max-w-xl">
+                I'm a developer who cares deeply about user experience and technical excellence. My approach combines a strong foundation in <span className="text-cyan-400">Data Structures and Algorithms</span> with a passion for building <span className="text-purple-400">high-performance, scalable, and reliable</span> digital experiences.
+                <br /><br />
+                With my experience, I bridge the gap between complex engineering and pixel-perfect design, ensuring every application I build is not only beautiful but also robust and performant.
               </p>
               
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { icon: Code2, label: 'Frontend', desc: 'React, Vue, Tailwind' },
-                  { icon: Cpu, label: 'Backend', desc: 'Node, Python, SQL' },
-                  { icon: Globe, label: 'Web3', desc: 'Solidity, Ethers.js' },
-                  { icon: Send, label: 'Design', desc: 'Figma, Spline, ThreeJS' },
-                ].map((skill, i) => (
-                  <div key={i} className="p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-cyan-500/30 transition-colors">
-                    <skill.icon className="text-cyan-400 mb-4" size={24} />
-                    <h3 className="font-bold mb-1">{skill.label}</h3>
-                    <p className="text-sm text-white/40">{skill.desc}</p>
-                  </div>
-                ))}
+              <div className="flex gap-6 items-center">
+                <div className="flex flex-col">
+                  <span className="text-3xl font-bold text-white">3+</span>
+                  <span className="text-sm text-white/40 uppercase tracking-wider">Years Exp</span>
+                </div>
+                <div className="w-px h-12 bg-white/10" />
+                <div className="flex flex-col">
+                  <span className="text-3xl font-bold text-white">10+</span>
+                  <span className="text-sm text-white/40 uppercase tracking-wider">Projects</span>
+                </div>
               </div>
             </motion.div>
 
             <motion.div
-               initial={{ opacity: 0, scale: 0.8 }}
-               whileInView={{ opacity: 1, scale: 1 }}
+               initial={{ opacity: 0, scale: 0.9, x: 50 }}
+               whileInView={{ opacity: 1, scale: 1, x: 0 }}
                viewport={{ once: true }}
-               className="relative"
+               transition={{ duration: 0.8 }}
+               className="grid grid-cols-2 gap-4"
             >
-                <div className="aspect-square rounded-3xl overflow-hidden bg-gradient-to-br from-cyan-500/20 to-purple-600/20 border border-white/10 relative p-8">
-                  {/* Decorative Elements replacing the Image */}
-                   <div className="absolute inset-0 flex items-center justify-center">
-                     <div className="w-64 h-64 bg-cyan-500/20 rounded-full blur-[80px] animate-pulse" />
-                   </div>
-                   <div className="relative z-10 h-full flex flex-col justify-between">
-                     <div className="text-6xl font-display font-bold text-white/10">01</div>
-                     <div className="text-right">
-                       <div className="text-4xl font-bold text-white mb-2">5+ Years</div>
-                       <div className="text-white/40">of Experience</div>
-                     </div>
-                   </div>
+              {[
+                { icon: Code2, label: 'Frontend', desc: 'React, Vite, Tailwind, NEXT js' },
+                { icon: Cpu, label: 'Backend', desc: 'Node, Express, Mongo, Nest, Django' },
+                { icon: Globe, label: 'Modern Web', desc: 'NextJS, TS, Tailwind' },
+                { icon: Send, label: 'Design', desc: 'Figma, Framer, UI/UX' },
+              ].map((skill, i) => (
+                <div 
+                  key={i} 
+                  className="group p-8 rounded-3xl bg-white/[0.03] border border-white/5 hover:border-cyan-500/30 hover:bg-white/[0.05] transition-all duration-500 backdrop-blur-sm"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                    <skill.icon className="text-cyan-400" size={24} />
+                  </div>
+                  <h3 className="font-bold text-lg mb-2">{skill.label}</h3>
+                  <p className="text-sm text-white/40 leading-relaxed">{skill.desc}</p>
                 </div>
+              ))}
             </motion.div>
           </div>
         </div>
