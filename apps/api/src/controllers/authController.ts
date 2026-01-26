@@ -1,3 +1,4 @@
+/// <reference path="../global.d.ts" />
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { type Request, type Response, type NextFunction } from "express";
@@ -54,7 +55,7 @@ export const authenticateAdmin = (
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET) as AuthPayload;
-    req.user = decoded.user;
+    req.user = decoded.user ?? null;
     next();
   } catch {
     return res.status(401).json({ err: "Token is not valid" });
