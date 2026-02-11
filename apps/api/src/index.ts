@@ -67,12 +67,9 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  
-  // Start keep-alive pings for production
-  if (process.env.NODE_ENV === 'production' || process.env.RENDER_EXTERNAL_URL) {
-    const url = process.env.RENDER_EXTERNAL_URL 
-      ? `${process.env.RENDER_EXTERNAL_URL}/health`
-      : 'https://portfolio-api-6n40.onrender.com/health';
-    startKeepAlive(url);
-  }
+  // Start keep-alive pings to prevent Render from sleeping
+  const url = process.env.RENDER_EXTERNAL_URL 
+    ? `${process.env.RENDER_EXTERNAL_URL}/health`
+    : 'https://portfolio-api-6n40.onrender.com/health';
+  startKeepAlive(url);
 });

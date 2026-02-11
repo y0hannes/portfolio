@@ -5,7 +5,33 @@ import type { Message } from '../../../types/Message';
 
 const API_create = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api',
+  timeout: 30000, // 30 seconds to allow for server wake-up
 });
+
+// Retry logic for 503/504 or network errors during wake-up
+API_create.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const { config } = error;
+    if (!config || !config.retry) return Promise.reject(error);
+
+    config.retryCount = config.retryCount || 0;
+
+    if (config.retryCount >= config.retry) {
+      return Promise.reject(error);
+    }
+
+    config.retryCount += 1;
+    const backoff = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(null);
+      }, config.retryDelay || 2000);
+    });
+
+    await backoff;
+    return API_create(config);
+  }
+);
 
 // Add auth token to requests
 API_create.interceptors.request.use((config: InternalAxiosRequestConfig) => {
@@ -13,6 +39,13 @@ API_create.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  
+  // Default retry configuration for GET requests
+  if (config.method?.toLowerCase() === 'get') {
+    (config as any).retry = 3;
+    (config as any).retryDelay = 3000;
+  }
+  
   return config;
 });
 

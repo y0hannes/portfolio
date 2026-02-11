@@ -14,11 +14,14 @@ interface ContactFormData {
 
 export const Home = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
   const { addToast } = useToast();
   const { register, handleSubmit, reset } = useForm<ContactFormData>();
 
   useEffect(() => {
-    api.getProjects().then(setProjects);
+    api.getProjects()
+      .then(setProjects)
+      .finally(() => setLoading(false));
   }, []);
 
   const onSubmit = async (data: ContactFormData) => {
@@ -186,39 +189,55 @@ export const Home = () => {
           </motion.h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, i) => (
-              <motion.div
-                key={project._id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/5 hover:border-cyan-500/50 transition-all duration-300"
-              >
-                <div className="aspect-video overflow-hidden">
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
-                  />
+            {loading ? (
+              // Loading state
+              Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="rounded-2xl bg-white/5 border border-white/5 p-6 animate-pulse">
+                  <div className="aspect-video bg-white/5 rounded-xl mb-6" />
+                  <div className="h-4 w-1/3 bg-white/5 rounded mb-4" />
+                  <div className="h-6 w-2/3 bg-white/5 rounded mb-4" />
+                  <div className="h-20 w-full bg-white/5 rounded mb-6" />
                 </div>
-                <div className="p-6">
-                  <div className="flex gap-2 mb-4 flex-wrap">
-                    {project.tags.map(tag => (
-                      <span key={tag} className="px-3 py-1 text-xs font-medium rounded-full bg-cyan-500/10 text-cyan-400">
-                        {tag}
-                      </span>
-                    ))}
+              ))
+            ) : projects.length > 0 ? (
+              projects.map((project, i) => (
+                <motion.div
+                  key={project._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/5 hover:border-cyan-500/50 transition-all duration-300"
+                >
+                  <div className="aspect-video overflow-hidden">
+                    <img
+                      src={project.imageUrl}
+                      alt={project.title}
+                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                    />
                   </div>
-                  <h3 className="text-xl font-bold mb-3 group-hover:text-cyan-400 transition-colors">{project.title}</h3>
-                  <p className="text-white/70 text-base mb-6 line-clamp-6 leading-relaxed">{project.description}</p>
+                  <div className="p-6">
+                    <div className="flex gap-2 mb-4 flex-wrap">
+                      {project.tags.map(tag => (
+                        <span key={tag} className="px-3 py-1 text-xs font-medium rounded-full bg-cyan-500/10 text-cyan-400">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 group-hover:text-cyan-400 transition-colors">{project.title}</h3>
+                    <p className="text-white/70 text-base mb-6 line-clamp-6 leading-relaxed">{project.description}</p>
 
-                  <a href={project.link} className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider hover:text-cyan-400 transition-colors">
-                    View Project <ExternalLink size={16} />
-                  </a>
-                </div>
-              </motion.div>
-            ))}
+                    <a href={project.link} className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider hover:text-cyan-400 transition-colors">
+                      View Project <ExternalLink size={16} />
+                    </a>
+                  </div>
+                </motion.div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-20 bg-white/5 rounded-2xl border border-white/5">
+                <p className="text-white/40">No projects found.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
