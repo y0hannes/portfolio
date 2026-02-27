@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Code2, Cpu, Globe, Send, ExternalLink, Brain, Database } from 'lucide-react';
+import { ArrowRight, Code2, Cpu, Globe, Send, ExternalLink, Brain, Database, Briefcase, Calendar } from 'lucide-react';
+import * as Icons from 'lucide-react';
 import { api } from '../../services/api';
 import { type Project } from '../../../../types/Project';
+import { type Experience } from '../../../../types/Experience';
+import { type Certificate } from '../../../../types/Certificate';
 import { useForm } from 'react-hook-form';
 import { useToast } from '../../components/common/Toast';
 
@@ -14,14 +17,22 @@ interface ContactFormData {
 
 export const Home = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
   const { addToast } = useToast();
   const { register, handleSubmit, reset } = useForm<ContactFormData>();
 
   useEffect(() => {
-    api.getProjects()
-      .then(setProjects)
-      .finally(() => setLoading(false));
+    Promise.all([
+      api.getProjects(),
+      api.getExperiences(),
+      api.getCertificates()
+    ]).then(([projectsData, experiencesData, certsData]) => {
+      setProjects(projectsData);
+      setExperiences(experiencesData);
+      setCertificates(certsData);
+    }).finally(() => setLoading(false));
   }, []);
 
   const onSubmit = async (data: ContactFormData) => {
@@ -238,6 +249,117 @@ export const Home = () => {
                 <p className="text-white/40">No projects found.</p>
               </div>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* Experience Section */}
+      <section id="experience" className="py-24 relative overflow-hidden bg-black/20">
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-bold font-display mb-16 text-center"
+          >
+            Professional <span className="text-cyan-400">Experience</span>
+          </motion.h2>
+
+          <div className="max-w-3xl mx-auto space-y-8">
+            {experiences.map((exp, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="relative pl-8 md:pl-0"
+              >
+                <div className="md:grid md:grid-cols-5 md:gap-8 items-start group">
+                  <div className="hidden md:flex flex-col items-end col-span-1 pt-1 opacity-60 group-hover:opacity-100 transition-opacity">
+                    <span className="text-sm font-bold text-cyan-400 flex items-center gap-2">
+                      {exp.period} <Calendar size={14} />
+                    </span>
+                  </div>
+
+                  <div className="md:col-span-4 relative pb-8 md:pb-0">
+                    <div className="absolute left-[-2rem] md:left-[-2.5rem] top-1 w-4 h-4 rounded-full border-2 border-cyan-400 bg-dark z-10 group-hover:scale-125 group-hover:bg-cyan-400 transition-all duration-300" />
+                    <div className="absolute left-[-1.56rem] md:left-[-2.06rem] top-1 w-0.5 h-full bg-white/10 group-hover:bg-cyan-400/30 transition-colors" />
+
+                    <div className="bg-white/5 border border-white/5 hover:border-cyan-500/30 rounded-2xl p-6 transition-colors backdrop-blur-sm -mt-2">
+                      <div className="flex justify-between items-start mb-2 md:hidden">
+                        <span className="text-xs font-bold text-cyan-400 flex items-center gap-1">
+                          <Calendar size={12} /> {exp.period}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                        {exp.role}
+                      </h3>
+                      <div className="text-purple-400 font-medium mb-4 flex items-center gap-2 text-sm">
+                        <Briefcase size={14} /> {exp.company}
+                      </div>
+                      <p className="text-white/60 leading-relaxed text-sm md:text-base">
+                        {exp.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Certificates & Accomplishments Section */}
+      <section id="certificates" className="py-24 relative overflow-hidden">
+        <div className="container mx-auto px-6 relative z-10">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-bold font-display mb-16 text-center"
+          >
+            Certificates & <span className="text-purple-400">Accomplishments</span>
+          </motion.h2>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {certificates.map((cert, i) => {
+              const Icon = (Icons as any)[cert.icon] || Icons.Award;
+              return (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group relative rounded-2xl p-1 bg-gradient-to-br from-white/10 to-transparent hover:from-purple-500/50 hover:to-cyan-500/50 transition-all duration-500"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500" />
+                  <div className="relative h-full bg-dark rounded-xl p-6 border border-white/5 flex flex-col">
+                    <div className="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <Icon className="text-purple-400" size={24} />
+                    </div>
+
+                    <div className="mt-auto">
+                      <div className="flex gap-2 mb-3">
+                        <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
+                          {cert.category}
+                        </span>
+                        <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
+                          {cert.date}
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-bold mb-1 group-hover:text-purple-400 transition-colors">
+                        {cert.title}
+                      </h3>
+                      <p className="text-white/40 text-sm">
+                        {cert.issuer}
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>

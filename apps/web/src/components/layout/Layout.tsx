@@ -15,8 +15,10 @@ export const Layout = () => {
   }, [location]);
 
   const navLinks = [
-    { name: 'Work', href: '#work' },
     { name: 'About', href: '#about' },
+    { name: 'Work', href: '#work' },
+    { name: 'Experience', href: '#experience' },
+    { name: 'Certificates', href: '#certificates' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -40,7 +42,7 @@ export const Layout = () => {
           </div>
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             className="md:hidden p-2 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -85,7 +87,7 @@ export const Layout = () => {
             <div className="text-center md:text-left">
               <p className="text-white/40 text-sm">Building digital experiences that matter.</p>
             </div>
-            
+
             <div className="flex items-center gap-6">
               <a href="https://github.com/y0hannes" className="p-3 bg-white/5 rounded-full hover:bg-cyan-500/20 hover:text-cyan-400 transition-all">
                 <Github size={20} />

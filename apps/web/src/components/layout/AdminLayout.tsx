@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, MessageSquare, FolderPlus, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, FolderPlus, LogOut, Menu, X, Briefcase, Award } from 'lucide-react';
 import { clsx } from 'clsx';
 
 export const AdminLayout = () => {
@@ -31,12 +31,14 @@ export const AdminLayout = () => {
     { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/admin/messages', icon: MessageSquare, label: 'Messages' },
     { path: '/admin/projects', icon: FolderPlus, label: 'Projects' },
+    { path: '/admin/experiences', icon: Briefcase, label: 'Experiences' },
+    { path: '/admin/certificates', icon: Award, label: 'Certificates' },
   ];
 
   return (
     <div className="min-h-screen bg-dark flex">
       {/* Mobile Menu Button */}
-      <button 
+      <button
         className="lg:hidden fixed top-4 right-4 z-50 p-2 bg-white/10 rounded-full backdrop-blur-md border border-white/10"
         onClick={() => setIsMobileOpen(!isMobileOpen)}
       >
@@ -62,8 +64,8 @@ export const AdminLayout = () => {
               onClick={() => setIsMobileOpen(false)}
               className={({ isActive }) => clsx(
                 "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300",
-                isActive 
-                  ? "bg-white/10 text-cyan-400 border border-white/10 shadow-lg shadow-cyan-500/10" 
+                isActive
+                  ? "bg-white/10 text-cyan-400 border border-white/10 shadow-lg shadow-cyan-500/10"
                   : "text-white/60 hover:text-white hover:bg-white/5"
               )}
             >
@@ -71,7 +73,7 @@ export const AdminLayout = () => {
               <span className="font-medium">{item.label}</span>
             </NavLink>
           ))}
-          
+
           <button
             onClick={handleLogout}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-400 hover:bg-red-500/10 transition-colors mt-8"
