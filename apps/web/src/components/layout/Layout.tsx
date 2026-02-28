@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Github, Linkedin, Twitter, Mail } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Mail } from 'lucide-react';
 
 
 export const Layout = () => {
@@ -25,8 +25,18 @@ export const Layout = () => {
     <div className="min-h-screen bg-dark text-white selection:bg-emerald-500/30">
       {/* Navbar */}
       {/* Navbar - Centered Floating Taskbar */}
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
-        <div className="flex items-center gap-1 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full p-2 pl-6 shadow-2xl">
+      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-4xl md:w-auto">
+        <div className="flex items-center justify-between md:justify-start bg-white/5 backdrop-blur-2xl border border-white/10 rounded-full p-2 px-4 md:px-2 shadow-2xl">
+          {/* Logo / Brand */}
+          <a href="/" className="flex items-center gap-2 px-2 group">
+            <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center border border-emerald-500/20 group-hover:border-emerald-500/50 transition-colors">
+              <span className="text-[10px] font-black text-emerald-400 tracking-tighter">YM</span>
+            </div>
+            <span className="text-sm font-bold tracking-tight text-white/90 group-hover:text-emerald-400 transition-colors">Portfolio</span>
+          </a>
+
+          <div className="h-4 w-px bg-white/10 mx-2 hidden md:block" />
+
           {/* Desktop Nav */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
@@ -54,22 +64,41 @@ export const Layout = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 bg-dark pt-24 px-6 md:hidden"
+            exit={{ opacity: 0, y: -10 }}
+            className="fixed inset-0 z-40 bg-dark/95 backdrop-blur-3xl pt-32 px-10 md:hidden flex flex-col"
           >
-            <div className="flex flex-col gap-6">
-              {navLinks.map((link) => (
-                <a
+            <div className="flex flex-col gap-8">
+              {navLinks.map((link, i) => (
+                <motion.a
                   key={link.name}
                   href={link.href}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.1 }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-2xl font-display font-medium text-white/80 hover:text-emerald-400"
+                  className="text-5xl font-display font-bold text-white/20 hover:text-emerald-400 transition-colors flex items-baseline gap-4"
                 >
+                  <span className="text-xl font-mono text-emerald-500/40">0{i + 1}</span>
                   {link.name}
-                </a>
+                </motion.a>
               ))}
+            </div>
+
+            <div className="mt-auto pb-12">
+              <p className="text-white/20 text-sm uppercase tracking-widest mb-6">Let's connect</p>
+              <div className="flex gap-6">
+                <a href="https://github.com/y0hannes" className="text-white/40 hover:text-emerald-400 transition-colors">
+                  <Github size={24} />
+                </a>
+                <a href="https://linkedin.com/yohannes-muluken" className="text-white/40 hover:text-emerald-400 transition-colors">
+                  <Linkedin size={24} />
+                </a>
+                <a href="mailto:contact@example.com" className="text-white/40 hover:text-emerald-400 transition-colors">
+                  <Mail size={24} />
+                </a>
+              </div>
             </div>
           </motion.div>
         )}
