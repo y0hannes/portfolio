@@ -45,12 +45,12 @@ export const Messages = () => {
             <div key={msg._id} className="group p-6 bg-white/5 border border-white/5 rounded-2xl hover:bg-white/10 transition-colors">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center font-bold text-white">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center font-bold text-white">
                     {msg.name.charAt(0)}
                   </div>
                   <div>
                     <h3 className="font-bold">{msg.name}</h3>
-                    <div className="text-sm text-cyan-400">{msg.email}</div>
+                    <div className="text-sm text-emerald-400">{msg.email}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">

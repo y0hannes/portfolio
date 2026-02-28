@@ -17,13 +17,12 @@ export const Layout = () => {
   const navLinks = [
     { name: 'About', href: '#about' },
     { name: 'Work', href: '#work' },
-    { name: 'Experience', href: '#experience' },
     { name: 'Certificates', href: '#certificates' },
     { name: 'Contact', href: '#contact' },
   ];
 
   return (
-    <div className="min-h-screen bg-dark text-white selection:bg-cyan-500/30">
+    <div className="min-h-screen bg-dark text-white selection:bg-emerald-500/30">
       {/* Navbar */}
       {/* Navbar - Centered Floating Taskbar */}
       <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-50">
@@ -66,7 +65,7 @@ export const Layout = () => {
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-2xl font-display font-medium text-white/80 hover:text-cyan-400"
+                  className="text-2xl font-display font-medium text-white/80 hover:text-emerald-400"
                 >
                   {link.name}
                 </a>
@@ -89,10 +88,10 @@ export const Layout = () => {
             </div>
 
             <div className="flex items-center gap-6">
-              <a href="https://github.com/y0hannes" className="p-3 bg-white/5 rounded-full hover:bg-cyan-500/20 hover:text-cyan-400 transition-all">
+              <a href="https://github.com/y0hannes" className="p-3 bg-white/5 rounded-full hover:bg-emerald-500/20 hover:text-emerald-400 transition-all">
                 <Github size={20} />
               </a>
-              <a href="https://linkedin.com/yohannes-muluken" className="p-3 bg-white/5 rounded-full hover:bg-cyan-500/20 hover:text-cyan-400 transition-all">
+              <a href="https://linkedin.com/yohannes-muluken" className="p-3 bg-white/5 rounded-full hover:bg-emerald-500/20 hover:text-emerald-400 transition-all">
                 <Linkedin size={20} />
               </a>
             </div>

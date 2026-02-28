@@ -110,7 +110,7 @@ export const Projects = () => {
         <h1 className="text-3xl font-display font-bold">Portfolio Projects</h1>
         <button 
           onClick={() => openModal()}
-          className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
+          className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
         >
           <Plus size={20} />
           <span>Add Project</span>
@@ -191,12 +191,12 @@ export const Projects = () => {
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Project Title</label>
-                  <input {...register('title', { required: true })} className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none" />
+                  <input {...register('title', { required: true })} className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
                 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Description</label>
-                  <textarea {...register('description', { required: true })} rows={3} className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none resize-none" />
+                  <textarea {...register('description', { required: true })} rows={3} className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none resize-none" />
                 </div>
 
                 <div className="space-y-2">
@@ -218,7 +218,7 @@ export const Projects = () => {
                           }
                         }
                       })} 
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20" 
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20" 
                     />
                     {editingProject && !imagePreview && (
                       <p className="text-xs text-white/40 italic">Current image URL: {editingProject.imageUrl}</p>
@@ -228,25 +228,25 @@ export const Projects = () => {
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Code Link</label>
-                  <input {...register('codeLink', { required: true })} placeholder="https://github.com/..." className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none" />
+                  <input {...register('codeLink', { required: true })} placeholder="https://github.com/..." className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <input type="checkbox" {...register('isFinished')} id="isFinished" className="w-4 h-4 rounded border-white/10 bg-white/5 focus:ring-cyan-400 focus:ring-offset-0" />
+                  <input type="checkbox" {...register('isFinished')} id="isFinished" className="w-4 h-4 rounded border-white/10 bg-white/5 focus:ring-emerald-400 focus:ring-offset-0" />
                   <label htmlFor="isFinished" className="text-sm font-medium text-white/60">Project is Finished</label>
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Tags (comma separated)</label>
-                  <input {...register('tags')} placeholder="React, Node, Design" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none" />
+                  <input {...register('tags')} placeholder="React, Node, Design" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Project Link</label>
-                  <input {...register('link')} placeholder="https://..." className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none" />
+                  <input {...register('link')} placeholder="https://..." className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
-                <button type="submit" className="w-full py-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">
+                <button type="submit" className="w-full py-4 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-600 transition-colors">
                   {editingProject ? 'Update Project' : 'Create Project'}
                 </button>
               </form>

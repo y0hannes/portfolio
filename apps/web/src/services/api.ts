@@ -2,7 +2,6 @@ import axios from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
 import type { Project } from '../../../types/Project';
 import type { Message } from '../../../types/Message';
-import type { Experience } from '../../../types/Experience';
 import type { Certificate } from '../../../types/Certificate';
 
 const API_create = axios.create({
@@ -112,31 +111,6 @@ const deleteMessage = async (id: string): Promise<void> => {
   await API_create.delete(`/messages/${id}`);
 };
 
-const getExperiences = async (): Promise<Experience[]> => {
-  try {
-    const res = await API_create.get('/experiences');
-    return res.data;
-  } catch (error) {
-    console.error('Failed to fetch experiences', error);
-    return [];
-  }
-};
-
-const addExperience = async (data: Omit<Experience, '_id'>): Promise<void> => {
-  await API_create.post('/experiences', data);
-};
-
-const updateExperience = async (
-  id: string,
-  data: Partial<Experience>,
-): Promise<void> => {
-  await API_create.put(`/experiences/${id}`, data);
-};
-
-const deleteExperience = async (id: string): Promise<void> => {
-  await API_create.delete(`/experiences/${id}`);
-};
-
 const getCertificates = async (): Promise<Certificate[]> => {
   try {
     const res = await API_create.get('/certificates');
@@ -173,10 +147,6 @@ export const api = {
   getMessages,
   sendMessage,
   deleteMessage,
-  getExperiences,
-  addExperience,
-  updateExperience,
-  deleteExperience,
   getCertificates,
   addCertificate,
   updateCertificate,

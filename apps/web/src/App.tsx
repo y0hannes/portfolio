@@ -8,7 +8,7 @@ import { Dashboard } from './pages/admin/Dashboard';
 import { Login } from './pages/admin/Login';
 import { Messages } from './pages/admin/Messages';
 import { Projects } from './pages/admin/Projects';
-import { Experiences } from './pages/admin/Experiences';
+
 import { Certificates } from './pages/admin/Certificates';
 import { ToastProvider } from './components/common/Toast';
 
@@ -28,7 +28,7 @@ function App() {
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='messages' element={<Messages />} />
             <Route path='projects' element={<Projects />} />
-            <Route path='experiences' element={<Experiences />} />
+
             <Route path='certificates' element={<Certificates />} />
           </Route>
 

@@ -9,18 +9,18 @@
 }
 
 .glass-panel {
-  @apply bg-glass backdrop-blur-lg border border-white/10 shadow-xl;
+  @apply bg-glass backdrop-blur-xl border border-white/10 shadow-2xl;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-dark;
+  @apply bg-[#03100b];
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-white/20 rounded-full hover:bg-white/30 transition-colors;
+  @apply bg-emerald-900/50 rounded-full border-2 border-[#03100b] hover:bg-emerald-700/80 transition-colors;
 }

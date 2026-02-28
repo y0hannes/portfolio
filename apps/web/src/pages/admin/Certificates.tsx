@@ -78,7 +78,7 @@ export const Certificates = () => {
         <h1 className="text-3xl font-display font-bold">Certificates & Accomplishments</h1>
         <button
           onClick={() => openModal()}
-          className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-purple-600 text-white rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
+          className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
         >
           <Plus size={20} />
           <span>Add Certificate</span>
@@ -117,8 +117,8 @@ export const Certificates = () => {
                 </button>
               </div>
 
-              <div className="w-12 h-12 rounded-full bg-purple-500/10 flex items-center justify-center mb-6">
-                <Award className="text-purple-400" size={24} />
+              <div className="w-12 h-12 rounded-full bg-teal-500/10 flex items-center justify-center mb-6">
+                <Award className="text-teal-400" size={24} />
               </div>
               <div className="flex gap-2 mb-3">
                 <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
@@ -154,30 +154,30 @@ export const Certificates = () => {
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Title</label>
-                  <input {...register('title', { required: true })} placeholder="e.g. AWS Certified Developer" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none" />
+                  <input {...register('title', { required: true })} placeholder="e.g. AWS Certified Developer" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Issuer</label>
-                  <input {...register('issuer', { required: true })} placeholder="e.g. Amazon Web Services" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none" />
+                  <input {...register('issuer', { required: true })} placeholder="e.g. Amazon Web Services" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Date</label>
-                  <input {...register('date', { required: true })} placeholder="e.g. 2023 or Jan 2023" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none" />
+                  <input {...register('date', { required: true })} placeholder="e.g. 2023 or Jan 2023" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Category</label>
-                  <input {...register('category', { required: true })} placeholder="e.g. Certification, Course, Top 10%, Award" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none" />
+                  <input {...register('category', { required: true })} placeholder="e.g. Certification, Course, Top 10%, Award" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Icon (Lucide React Component Name - optional)</label>
-                  <input {...register('icon')} placeholder="e.g. Award, Star, Certificate" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-cyan-400 focus:outline-none" />
+                  <input {...register('icon')} placeholder="e.g. Award, Star, Certificate" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
-                <button type="submit" className="w-full py-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">
+                <button type="submit" className="w-full py-4 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-600 transition-colors">
                   {editingCertificate ? 'Update Certificate' : 'Create Certificate'}
                 </button>
               </form>

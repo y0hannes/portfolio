@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, MessageSquare, FolderPlus, LogOut, Menu, X, Briefcase, Award } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, FolderPlus, LogOut, Menu, X, Award } from 'lucide-react';
 import { clsx } from 'clsx';
 
 export const AdminLayout = () => {
@@ -31,7 +31,6 @@ export const AdminLayout = () => {
     { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/admin/messages', icon: MessageSquare, label: 'Messages' },
     { path: '/admin/projects', icon: FolderPlus, label: 'Projects' },
-    { path: '/admin/experiences', icon: Briefcase, label: 'Experiences' },
     { path: '/admin/certificates', icon: Award, label: 'Certificates' },
   ];
 
@@ -51,7 +50,7 @@ export const AdminLayout = () => {
         isMobileOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-8">
-          <h2 className="text-2xl font-bold font-display bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text text-transparent">
+          <h2 className="text-2xl font-bold font-display bg-gradient-to-r from-emerald-400 to-teal-500 bg-clip-text text-transparent">
             Admin
           </h2>
         </div>
@@ -65,7 +64,7 @@ export const AdminLayout = () => {
               className={({ isActive }) => clsx(
                 "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300",
                 isActive
-                  ? "bg-white/10 text-cyan-400 border border-white/10 shadow-lg shadow-cyan-500/10"
+                  ? "bg-white/10 text-emerald-400 border border-white/10 shadow-lg shadow-emerald-500/10"
                   : "text-white/60 hover:text-white hover:bg-white/5"
               )}
             >
