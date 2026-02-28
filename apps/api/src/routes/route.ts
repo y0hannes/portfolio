@@ -7,13 +7,6 @@ import {
 } from '../controllers/projectsController';
 
 import {
-  getExperiences,
-  postExperience,
-  updateExperience,
-  deleteExperience,
-} from '../controllers/experienceController';
-
-import {
   getCertificates,
   postCertificate,
   updateCertificate,
@@ -49,11 +42,6 @@ routes.delete('/projects/:id', authenticateAdmin, deleteProject);
 routes.get('/messages', authenticateAdmin, getMessages);
 routes.post('/messages', createMessage);
 routes.delete('/messages/:id', authenticateAdmin, deleteMessage);
-
-routes.get('/experiences', getExperiences);
-routes.post('/experiences', authenticateAdmin, postExperience);
-routes.put('/experiences/:id', authenticateAdmin, updateExperience);
-routes.delete('/experiences/:id', authenticateAdmin, deleteExperience);
 
 routes.get('/certificates', getCertificates);
 routes.post('/certificates', authenticateAdmin, postCertificate);
