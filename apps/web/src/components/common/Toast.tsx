@@ -57,7 +57,7 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
                 min-w-[320px] p-4 rounded-2xl border backdrop-blur-xl shadow-2xl flex items-center gap-4
                 ${toast.type === 'success' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 
                   toast.type === 'error' ? 'bg-red-500/10 border-red-500/20 text-red-400' : 
-                  'bg-cyan-500/10 border-cyan-500/20 text-cyan-400'}
+                  'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'}
               `}
             >
               <div className="flex-shrink-0">

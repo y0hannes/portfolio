@@ -8,32 +8,36 @@ import { Dashboard } from './pages/admin/Dashboard';
 import { Login } from './pages/admin/Login';
 import { Messages } from './pages/admin/Messages';
 import { Projects } from './pages/admin/Projects';
+
+import { Certificates } from './pages/admin/Certificates';
 import { ToastProvider } from './components/common/Toast';
 
 function App() {
   return (
     <ToastProvider>
       <BrowserRouter>
-      <Routes>
-        {/* Public Routes */}
-        <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
-        </Route>
+        <Routes>
+          {/* Public Routes */}
+          <Route path='/' element={<Layout />}>
+            <Route index element={<Home />} />
+          </Route>
 
-        {/* Admin Routes */}
-        <Route path='/admin' element={<AdminLayout />}>
-          <Route index element={<Navigate to='/admin/dashboard' replace />} />
-          <Route path='dashboard' element={<Dashboard />} />
-          <Route path='messages' element={<Messages />} />
-          <Route path='projects' element={<Projects />} />
-        </Route>
+          {/* Admin Routes */}
+          <Route path='/admin' element={<AdminLayout />}>
+            <Route index element={<Navigate to='/admin/dashboard' replace />} />
+            <Route path='dashboard' element={<Dashboard />} />
+            <Route path='messages' element={<Messages />} />
+            <Route path='projects' element={<Projects />} />
 
-        {/* Admin Login (Standalone) */}
-        <Route path='/admin/login' element={<Login />} />
+            <Route path='certificates' element={<Certificates />} />
+          </Route>
 
-        {/* Catch all */}
-        <Route path='*' element={<Navigate to='/' replace />} />
-      </Routes>
+          {/* Admin Login (Standalone) */}
+          <Route path='/admin/login' element={<Login />} />
+
+          {/* Catch all */}
+          <Route path='*' element={<Navigate to='/' replace />} />
+        </Routes>
       </BrowserRouter>
     </ToastProvider>
   );

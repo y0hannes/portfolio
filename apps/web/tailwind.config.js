@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       fontFamily: {
@@ -11,11 +8,11 @@ export default {
         display: ['Space Grotesk', 'sans-serif'],
       },
       colors: {
-        dark: '#0a0a0a',
-        glass: 'rgba(255, 255, 255, 0.05)',
-        'glass-hover': 'rgba(255, 255, 255, 0.1)',
-      }
+        dark: '#03100b', // Deep rich forest green background
+        glass: 'rgba(255, 255, 255, 0.03)', // Softer glass
+        'glass-hover': 'rgba(255, 255, 255, 0.08)',
+      },
     },
   },
   plugins: [],
-}
+};

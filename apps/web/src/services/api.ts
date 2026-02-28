@@ -2,6 +2,7 @@ import axios from 'axios';
 import type { InternalAxiosRequestConfig } from 'axios';
 import type { Project } from '../../../types/Project';
 import type { Message } from '../../../types/Message';
+import type { Certificate } from '../../../types/Certificate';
 
 const API_create = axios.create({
   baseURL: import.meta.env.VITE_API_URL || '/api',
@@ -30,7 +31,7 @@ API_create.interceptors.response.use(
 
     await backoff;
     return API_create(config);
-  }
+  },
 );
 
 // Add auth token to requests
@@ -39,19 +40,22 @@ API_create.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  
+
   // Default retry configuration for GET requests
   if (config.method?.toLowerCase() === 'get') {
     (config as any).retry = 3;
     (config as any).retryDelay = 3000;
   }
-  
+
   return config;
 });
 
 const authAdmin = async (password: string): Promise<boolean> => {
   try {
-    const res = await API_create.post('/login', { username: 'admin', password });
+    const res = await API_create.post('/login', {
+      username: 'admin',
+      password,
+    });
     if (res.data.token) {
       localStorage.setItem('token', res.data.token);
       return true;
@@ -107,6 +111,33 @@ const deleteMessage = async (id: string): Promise<void> => {
   await API_create.delete(`/messages/${id}`);
 };
 
+const getCertificates = async (): Promise<Certificate[]> => {
+  try {
+    const res = await API_create.get('/certificates');
+    return res.data;
+  } catch (error) {
+    console.error('Failed to fetch certificates', error);
+    return [];
+  }
+};
+
+const addCertificate = async (
+  data: Omit<Certificate, '_id'>,
+): Promise<void> => {
+  await API_create.post('/certificates', data);
+};
+
+const updateCertificate = async (
+  id: string,
+  data: Partial<Certificate>,
+): Promise<void> => {
+  await API_create.put(`/certificates/${id}`, data);
+};
+
+const deleteCertificate = async (id: string): Promise<void> => {
+  await API_create.delete(`/certificates/${id}`);
+};
+
 export const api = {
   authAdmin,
   getProjects,
@@ -116,4 +147,8 @@ export const api = {
   getMessages,
   sendMessage,
   deleteMessage,
+  getCertificates,
+  addCertificate,
+  updateCertificate,
+  deleteCertificate,
 };
