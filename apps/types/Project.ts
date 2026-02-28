@@ -1,5 +1,5 @@
 export interface Project {
-  _id?: string;
+  id?: string;
   title: string;
   description: string;
   tags: string[];
@@ -7,6 +7,6 @@ export interface Project {
   isFinished: boolean;
   link?: string;
   imageUrl?: string;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
+  createdAt?: string;
+  updatedAt?: string;
 }

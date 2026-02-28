@@ -28,7 +28,7 @@ export const Certificates = () => {
     data.icon = data.icon ? data.icon : 'Award';
     try {
       if (editingCertificate) {
-        await api.updateCertificate(editingCertificate._id!, data);
+        await api.updateCertificate(editingCertificate.id!, data);
         addToast('Certificate updated successfully!');
       } else {
         await api.addCertificate(data);
@@ -101,7 +101,7 @@ export const Certificates = () => {
           ))
         ) : (
           certificates.map((certificate) => (
-            <div key={certificate._id} className="group relative bg-white/5 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-colors p-6">
+            <div key={certificate.id} className="group relative bg-white/5 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-colors p-6">
               <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => openModal(certificate)}
@@ -110,7 +110,7 @@ export const Certificates = () => {
                   <Pencil size={16} />
                 </button>
                 <button
-                  onClick={() => handleDelete(certificate._id!)}
+                  onClick={() => handleDelete(certificate.id!)}
                   className="p-2 bg-red-500/10 text-red-400 rounded-full hover:bg-red-500 hover:text-white transition-colors"
                 >
                   <Trash2 size={16} />
