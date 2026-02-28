@@ -14,7 +14,7 @@ export const Projects = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { addToast } = useToast();
   const { register, handleSubmit, reset, watch, setValue } = useForm();
-  
+
   // Watch for live preview
   const watchValues = watch();
 
@@ -29,17 +29,17 @@ export const Projects = () => {
 
   const onSubmit = async (data: any) => {
     const formData = new FormData();
-    
+
     // Add text fields
     formData.append('title', data.title);
     formData.append('description', data.description);
     formData.append('codeLink', data.codeLink);
     formData.append('link', data.link || '');
     formData.append('isFinished', String(data.isFinished));
-    
+
     // Handle tags
-    const tagsArray = typeof data.tags === 'string' 
-      ? data.tags.split(',').map((t: string) => t.trim()) 
+    const tagsArray = typeof data.tags === 'string'
+      ? data.tags.split(',').map((t: string) => t.trim())
       : data.tags;
     formData.append('tags', tagsArray.join(','));
 
@@ -52,7 +52,7 @@ export const Projects = () => {
 
     try {
       if (editingProject) {
-        await api.updateProject(editingProject._id!, formData);
+        await api.updateProject(editingProject.id!, formData);
         addToast('Project updated successfully!');
       } else {
         await api.addProject(formData);
@@ -108,7 +108,7 @@ export const Projects = () => {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-display font-bold">Portfolio Projects</h1>
-        <button 
+        <button
           onClick={() => openModal()}
           className="px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
         >
@@ -138,18 +138,18 @@ export const Projects = () => {
           ))
         ) : (
           projects.map((project) => (
-            <div key={project._id} className="group relative bg-white/5 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-colors">
+            <div key={project.id} className="group relative bg-white/5 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-colors">
               <div className="aspect-video bg-black/50 relative">
                 <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                  <button 
+                  <button
                     onClick={() => openModal(project)}
                     className="p-3 bg-white/20 text-white rounded-full hover:bg-white/40 transition-colors"
                   >
                     <Pencil size={20} />
                   </button>
-                  <button 
-                    onClick={() => handleDelete(project._id!)}
+                  <button
+                    onClick={() => handleDelete(project.id!)}
                     className="p-3 bg-red-500/20 text-red-400 rounded-full hover:bg-red-500 hover:text-white transition-colors"
                   >
                     <Trash2 size={20} />
@@ -176,7 +176,7 @@ export const Projects = () => {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm">
           <div className="w-full max-w-4xl bg-dark border border-white/10 rounded-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]">
-            
+
             {/* Form Side */}
             <div className="flex-1 p-8 overflow-y-auto">
               <div className="flex items-center justify-between mb-8">
@@ -193,7 +193,7 @@ export const Projects = () => {
                   <label className="text-sm font-medium text-white/60">Project Title</label>
                   <input {...register('title', { required: true })} className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
-                
+
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Description</label>
                   <textarea {...register('description', { required: true })} rows={3} className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none resize-none" />
@@ -202,10 +202,10 @@ export const Projects = () => {
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/60">Project Image</label>
                   <div className="flex flex-col gap-4">
-                    <input 
-                      type="file" 
+                    <input
+                      type="file"
                       accept="image/*"
-                      {...register('image', { 
+                      {...register('image', {
                         required: !editingProject,
                         onChange: (e) => {
                           const file = e.target.files[0];
@@ -217,8 +217,8 @@ export const Projects = () => {
                             reader.readAsDataURL(file);
                           }
                         }
-                      })} 
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20" 
+                      })}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
                     />
                     {editingProject && !imagePreview && (
                       <p className="text-xs text-white/40 italic">Current image URL: {editingProject.imageUrl}</p>
