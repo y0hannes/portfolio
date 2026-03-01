@@ -204,7 +204,7 @@ export const Home = () => {
             ) : projects.length > 0 ? (
               projects.map((project, i) => (
                 <motion.div
-                  key={project._id}
+                  key={project.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -245,90 +245,49 @@ export const Home = () => {
       </section>
 
       {/* Certificates & Accomplishments Section */}
-      <section id="certificates" className="py-24 relative overflow-hidden bg-black/20">
+      <section id="certificates" className="py-24 relative overflow-hidden">
         <div className="container mx-auto px-6 relative z-10">
-          <motion.div
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-4xl md:text-5xl font-bold font-display mb-16 text-center"
           >
-            <h2 className="text-4xl md:text-5xl font-bold font-display mb-4">
-              Certificates & <span className="text-emerald-400">Accomplishments</span>
-            </h2>
-            <p className="text-white/40 max-w-2xl mx-auto">
-              A track record of continuous learning and professional growth through industry recognized certifications.
-            </p>
-          </motion.div>
+            Certificates & <span className="text-teal-400">Accomplishments</span>
+          </motion.h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {certificates.map((cert, i) => {
-              const Icon = (Icons as any)[cert.icon] || Award;
-              const targetUrl = cert.verificationUrl || cert.imageUrl;
-
+              const Icon = (Icons as any)[cert.icon] || Icons.Award;
               return (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  className="group relative flex flex-col bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-emerald-500/50 transition-all duration-300 h-full"
+                  transition={{ delay: i * 0.1 }}
+                  className="group relative rounded-2xl bg-white/5 border border-white/10 hover:border-emerald-500 transition-colors duration-300 flex flex-col p-6 h-full"
                 >
-                  {/* Header: Icon and Date */}
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                      <Icon className="text-emerald-400" size={24} />
-                    </div>
-                    <span className="text-xs font-medium text-white/30 uppercase tracking-widest mt-1">
-                      {cert.date}
-                    </span>
+                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center mb-6">
+                    <Icon className="text-emerald-400" size={24} />
                   </div>
 
-                  {/* Content */}
-                  <div className="flex flex-col flex-1">
-                    <div className="mb-4">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full mb-2 inline-block">
+                  <div className="mt-auto">
+                    <div className="flex gap-2 mb-3">
+                      <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
                         {cert.category}
                       </span>
-                      <h3 className="text-lg font-bold mb-1 group-hover:text-emerald-400 transition-colors">
-                        {cert.title}
-                      </h3>
-                      <p className="text-white/60 text-sm font-medium">
-                        {cert.issuer}
-                      </p>
+                      <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
+                        {cert.date}
+                      </span>
                     </div>
-
-                    {/* Small Image Preview if available */}
-                    {cert.imageUrl && (
-                      <div className="mt-2 mb-6 aspect-video rounded-xl overflow-hidden border border-white/10 bg-black/40 group-hover:border-emerald-500/30 transition-colors">
-                        <img
-                          src={cert.imageUrl}
-                          alt={cert.title}
-                          className="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-500"
-                        />
-                      </div>
-                    )}
-
-                    {/* Verification Link */}
-                    <div className="mt-auto pt-4 border-t border-white/5">
-                      {targetUrl ? (
-                        <a
-                          href={targetUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors uppercase tracking-widest"
-                        >
-                          {cert.verificationUrl ? 'Verify Credential' : 'Show Full Certificate'} <ExternalLink size={12} />
-                        </a>
-                      ) : (
-                        <span className="text-[10px] text-white/20 italic uppercase tracking-wider">Verified Achievement</span>
-                      )}
-                    </div>
+                    <h3 className="text-lg font-bold mb-1 group-hover:text-teal-400 transition-colors">
+                      {cert.title}
+                    </h3>
+                    <p className="text-white/40 text-sm">
+                      {cert.issuer}
+                    </p>
                   </div>
-
-                  {/* Decorative glow */}
-                  <div className="absolute inset-0 border border-emerald-500/0 group-hover:border-emerald-500/10 transition-colors pointer-events-none rounded-2xl" />
                 </motion.div>
               );
             })}

@@ -41,7 +41,7 @@ export const Certificates = () => {
 
     try {
       if (editingCertificate) {
-        await api.updateCertificate(editingCertificate._id!, formData);
+        await api.updateCertificate(editingCertificate.id!, data);
         addToast('Certificate updated successfully!');
       } else {
         await api.addCertificate(formData);
@@ -120,29 +120,24 @@ export const Certificates = () => {
           ))
         ) : (
           certificates.map((certificate) => (
-            <div key={certificate._id} className="group relative bg-white/5 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-colors">
-              <div className="aspect-video bg-black/50 relative">
-                {certificate.imageUrl ? (
-                  <img src={certificate.imageUrl} alt={certificate.title} className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-white/20">
-                    <Award size={48} />
-                  </div>
-                )}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                  <button
-                    onClick={() => openModal(certificate)}
-                    className="p-3 bg-white/20 text-white rounded-full hover:bg-white/40 transition-colors"
-                  >
-                    <Pencil size={20} />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(certificate._id!)}
-                    className="p-3 bg-red-500/20 text-red-400 rounded-full hover:bg-red-500 hover:text-white transition-colors"
-                  >
-                    <Trash2 size={20} />
-                  </button>
-                </div>
+            <div key={certificate.id} className="group relative bg-white/5 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-colors p-6">
+              <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <button
+                  onClick={() => openModal(certificate)}
+                  className="p-2 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors"
+                >
+                  <Pencil size={16} />
+                </button>
+                <button
+                  onClick={() => handleDelete(certificate.id!)}
+                  className="p-2 bg-red-500/10 text-red-400 rounded-full hover:bg-red-500 hover:text-white transition-colors"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+
+              <div className="w-12 h-12 rounded-full bg-teal-500/10 flex items-center justify-center mb-6">
+                <Award className="text-teal-400" size={24} />
               </div>
               <div className="p-6">
                 <div className="flex gap-2 mb-3">

@@ -1,5 +1,5 @@
 export interface Certificate {
-  _id?: string;
+  id?: string;
   title: string;
   issuer: string;
   date: string;

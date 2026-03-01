@@ -1,8 +1,8 @@
 export interface Message {
-  _id?: string;
+  id?: string;
   name: string;
   email: string;
   content: string;
-  createdAt?: Date | string;
-  updatedAt?: Date | string;
+  createdAt?: string;
+  updatedAt?: string;
 }

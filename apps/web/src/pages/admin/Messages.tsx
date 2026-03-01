@@ -42,7 +42,7 @@ export const Messages = () => {
           </div>
         ) : (
           messages.map((msg) => (
-            <div key={msg._id} className="group p-6 bg-white/5 border border-white/5 rounded-2xl hover:bg-white/10 transition-colors">
+            <div key={msg.id} className="group p-6 bg-white/5 border border-white/5 rounded-2xl hover:bg-white/10 transition-colors">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center font-bold text-white">
@@ -58,8 +58,8 @@ export const Messages = () => {
                     <Clock size={14} />
                     <span>{formatDate(msg.createdAt as string)}</span>
                   </div>
-                  <button 
-                    onClick={() => handleDelete(msg._id!)}
+                  <button
+                    onClick={() => handleDelete(msg.id!)}
                     className="p-2 text-white/20 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
                   >
                     <Trash2 size={18} />
