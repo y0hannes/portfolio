@@ -20,18 +20,23 @@ export const postCertificate = async (
   next: NextFunction,
 ) => {
   try {
-    const { title, issuer, date, category, icon } = req.body;
+    const { title, issuer, date, category, icon, verificationUrl } = req.body;
     if (!title || !issuer || !date || !category) {
       return res
         .status(400)
         .json({ err: 'All required fields should be filled' });
     }
+
+    const imageUrl = req.file ? req.file.path : undefined;
+
     const certificate = new Certificate({
       title,
       issuer,
       date,
       category,
       icon: icon || 'Award',
+      imageUrl,
+      verificationUrl,
     });
     await certificate.save();
     res
@@ -49,11 +54,21 @@ export const updateCertificate = async (
 ) => {
   try {
     const { id } = req.params;
-    const { title, issuer, date, category, icon } = req.body;
+    const {
+      title,
+      issuer,
+      date,
+      category,
+      icon,
+      verificationUrl,
+      imageUrl: bodyImageUrl,
+    } = req.body;
+
+    const imageUrl = req.file ? req.file.path : bodyImageUrl;
 
     const updatedCertificate = await Certificate.findByIdAndUpdate(
       id,
-      { title, issuer, date, category, icon },
+      { title, issuer, date, category, icon, verificationUrl, imageUrl },
       { new: true, runValidators: true },
     );
 
@@ -61,12 +76,10 @@ export const updateCertificate = async (
       return res.status(404).json({ err: 'Certificate not found' });
     }
 
-    res
-      .status(200)
-      .json({
-        msg: 'Certificate updated successfully',
-        certificate: updatedCertificate,
-      });
+    res.status(200).json({
+      msg: 'Certificate updated successfully',
+      certificate: updatedCertificate,
+    });
   } catch (err) {
     next(err);
   }

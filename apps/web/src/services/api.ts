@@ -121,17 +121,19 @@ const getCertificates = async (): Promise<Certificate[]> => {
   }
 };
 
-const addCertificate = async (
-  data: Omit<Certificate, '_id'>,
-): Promise<void> => {
-  await API_create.post('/certificates', data);
+const addCertificate = async (formData: FormData): Promise<void> => {
+  await API_create.post('/certificates', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 };
 
 const updateCertificate = async (
   id: string,
-  data: Partial<Certificate>,
+  formData: FormData,
 ): Promise<void> => {
-  await API_create.put(`/certificates/${id}`, data);
+  await API_create.put(`/certificates/${id}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 };
 
 const deleteCertificate = async (id: string): Promise<void> => {

@@ -44,8 +44,18 @@ routes.post('/messages', createMessage);
 routes.delete('/messages/:id', authenticateAdmin, deleteMessage);
 
 routes.get('/certificates', getCertificates);
-routes.post('/certificates', authenticateAdmin, postCertificate);
-routes.put('/certificates/:id', authenticateAdmin, updateCertificate);
+routes.post(
+  '/certificates',
+  authenticateAdmin,
+  upload.single('image'),
+  postCertificate,
+);
+routes.put(
+  '/certificates/:id',
+  authenticateAdmin,
+  upload.single('image'),
+  updateCertificate,
+);
 routes.delete('/certificates/:id', authenticateAdmin, deleteCertificate);
 
 export default routes;

@@ -6,6 +6,8 @@ export interface ICertificate extends Document {
   date: string;
   category: string;
   icon: string;
+  imageUrl?: string;
+  verificationUrl?: string;
 }
 
 const certificateSchema: Schema = new Schema(
@@ -15,6 +17,8 @@ const certificateSchema: Schema = new Schema(
     date: { type: String, required: true },
     category: { type: String, required: true },
     icon: { type: String, required: true, default: 'Award' },
+    imageUrl: { type: String },
+    verificationUrl: { type: String },
   },
   { timestamps: true },
 );

@@ -10,6 +10,7 @@ export const Certificates = () => {
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCertificate, setEditingCertificate] = useState<Certificate | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { addToast } = useToast();
   const { register, handleSubmit, reset, setValue } = useForm();
@@ -24,14 +25,26 @@ export const Certificates = () => {
   };
 
   const onSubmit = async (data: any) => {
-    // Force lowercase for icon or use default if empty
-    data.icon = data.icon ? data.icon : 'Award';
+    const formData = new FormData();
+    formData.append('title', data.title);
+    formData.append('issuer', data.issuer);
+    formData.append('date', data.date);
+    formData.append('category', data.category);
+    formData.append('icon', data.icon || 'Award');
+    formData.append('verificationUrl', data.verificationUrl || '');
+
+    if (data.image && data.image[0]) {
+      formData.append('image', data.image[0]);
+    } else if (editingCertificate?.imageUrl) {
+      formData.append('imageUrl', editingCertificate.imageUrl);
+    }
+
     try {
       if (editingCertificate) {
-        await api.updateCertificate(editingCertificate._id!, data);
+        await api.updateCertificate(editingCertificate._id!, formData);
         addToast('Certificate updated successfully!');
       } else {
-        await api.addCertificate(data);
+        await api.addCertificate(formData);
         addToast('Certificate created successfully!');
       }
       closeModal();
@@ -44,11 +57,15 @@ export const Certificates = () => {
   const openModal = (certificate?: Certificate) => {
     if (certificate) {
       setEditingCertificate(certificate);
+      setImagePreview(certificate.imageUrl || null);
       Object.keys(certificate).forEach((key) => {
-        setValue(key, (certificate as any)[key]);
+        if (key !== 'imageUrl') {
+          setValue(key, (certificate as any)[key]);
+        }
       });
     } else {
       setEditingCertificate(null);
+      setImagePreview(null);
       reset({});
     }
     setIsModalOpen(true);
@@ -57,6 +74,7 @@ export const Certificates = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setEditingCertificate(null);
+    setImagePreview(null);
     reset({});
   };
 
@@ -89,8 +107,9 @@ export const Certificates = () => {
         {isLoading ? (
           // Skeleton Loader
           [1, 2, 3].map((i) => (
-            <div key={i} className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden p-6 animate-pulse">
-              <div className="space-y-4">
+            <div key={i} className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden animate-pulse">
+              <div className="aspect-video bg-white/5" />
+              <div className="p-6 space-y-4">
                 <div className="h-6 bg-white/5 rounded w-3/4" />
                 <div className="space-y-2">
                   <div className="h-4 bg-white/5 rounded" />
@@ -101,35 +120,42 @@ export const Certificates = () => {
           ))
         ) : (
           certificates.map((certificate) => (
-            <div key={certificate._id} className="group relative bg-white/5 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-colors p-6">
-              <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button
-                  onClick={() => openModal(certificate)}
-                  className="p-2 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors"
-                >
-                  <Pencil size={16} />
-                </button>
-                <button
-                  onClick={() => handleDelete(certificate._id!)}
-                  className="p-2 bg-red-500/10 text-red-400 rounded-full hover:bg-red-500 hover:text-white transition-colors"
-                >
-                  <Trash2 size={16} />
-                </button>
+            <div key={certificate._id} className="group relative bg-white/5 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-colors">
+              <div className="aspect-video bg-black/50 relative">
+                {certificate.imageUrl ? (
+                  <img src={certificate.imageUrl} alt={certificate.title} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-white/20">
+                    <Award size={48} />
+                  </div>
+                )}
+                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+                  <button
+                    onClick={() => openModal(certificate)}
+                    className="p-3 bg-white/20 text-white rounded-full hover:bg-white/40 transition-colors"
+                  >
+                    <Pencil size={20} />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(certificate._id!)}
+                    className="p-3 bg-red-500/20 text-red-400 rounded-full hover:bg-red-500 hover:text-white transition-colors"
+                  >
+                    <Trash2 size={20} />
+                  </button>
+                </div>
               </div>
-
-              <div className="w-12 h-12 rounded-full bg-teal-500/10 flex items-center justify-center mb-6">
-                <Award className="text-teal-400" size={24} />
+              <div className="p-6">
+                <div className="flex gap-2 mb-3">
+                  <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
+                    {certificate.category}
+                  </span>
+                  <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
+                    {certificate.date}
+                  </span>
+                </div>
+                <h3 className="font-bold text-lg mb-1">{certificate.title}</h3>
+                <p className="text-white/40 text-sm">{certificate.issuer}</p>
               </div>
-              <div className="flex gap-2 mb-3">
-                <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
-                  {certificate.category}
-                </span>
-                <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
-                  {certificate.date}
-                </span>
-              </div>
-              <h3 className="text-lg font-bold mb-1">{certificate.title}</h3>
-              <p className="text-white/40 text-sm">{certificate.issuer}</p>
             </div>
           ))
         )}
@@ -138,7 +164,7 @@ export const Certificates = () => {
       {/* Add Certificate Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-2xl bg-dark border border-white/10 rounded-2xl overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="w-full max-w-4xl bg-dark border border-white/10 rounded-2xl overflow-hidden flex flex-col md:flex-row max-h-[90vh]">
 
             {/* Form Side */}
             <div className="flex-1 p-8 overflow-y-auto">
@@ -163,24 +189,78 @@ export const Certificates = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white/60">Date</label>
-                  <input {...register('date', { required: true })} placeholder="e.g. 2023 or Jan 2023" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
+                  <label className="text-sm font-medium text-white/60">Certificate Image</label>
+                  <div className="flex flex-col gap-4">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      {...register('image', {
+                        onChange: (e) => {
+                          const file = e.target.files[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setImagePreview(reader.result as string);
+                            };
+                            reader.readAsDataURL(file);
+                          }
+                        }
+                      })}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-white/60">Date</label>
+                    <input {...register('date', { required: true })} placeholder="e.g. 2023" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-white/60">Category</label>
+                    <input {...register('category', { required: true })} placeholder="e.g. Certification" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
+                  </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white/60">Category</label>
-                  <input {...register('category', { required: true })} placeholder="e.g. Certification, Course, Top 10%, Award" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
+                  <label className="text-sm font-medium text-white/60">Verification Link (Optional)</label>
+                  <input {...register('verificationUrl')} placeholder="https://..." className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white/60">Icon (Lucide React Component Name - optional)</label>
-                  <input {...register('icon')} placeholder="e.g. Award, Star, Certificate" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
+                  <label className="text-sm font-medium text-white/60">Icon Name (optional)</label>
+                  <input {...register('icon')} placeholder="Award" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
                 <button type="submit" className="w-full py-4 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-600 transition-colors">
                   {editingCertificate ? 'Update Certificate' : 'Create Certificate'}
                 </button>
               </form>
+            </div>
+
+            {/* Preview Side */}
+            <div className="flex-1 bg-white/5 p-8 border-l border-white/10 hidden md:block">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-white/40 mb-6">Live Preview</h3>
+              <div className="bg-dark border border-white/10 rounded-2xl overflow-hidden pointer-events-none">
+                <div className="aspect-video bg-black/50 overflow-hidden">
+                  {imagePreview ? (
+                    <img src={imagePreview} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-white/20">
+                      <Award size={48} />
+                    </div>
+                  )}
+                </div>
+                <div className="p-6">
+                  <div className="flex gap-2 mb-3">
+                    <span className="px-2 py-1 text-xs bg-white/5 rounded-md text-white/60">Category</span>
+                    <span className="px-2 py-1 text-xs bg-white/5 rounded-md text-white/60">Date</span>
+                  </div>
+                  <h3 className="font-bold text-lg mb-1">Certificate Title</h3>
+                  <p className="text-white/40 text-sm">Issuer Name</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
