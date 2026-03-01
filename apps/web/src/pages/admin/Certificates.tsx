@@ -24,8 +24,9 @@ export const Certificates = () => {
   };
 
   const onSubmit = async (data: any) => {
-    // Force lowercase for icon or use default if empty
-    data.icon = data.icon ? data.icon : 'Award';
+    // Ensure default icon if empty
+    data.icon = data.icon || 'Award';
+
     try {
       if (editingCertificate) {
         await api.updateCertificate(editingCertificate.id!, data);
@@ -89,8 +90,9 @@ export const Certificates = () => {
         {isLoading ? (
           // Skeleton Loader
           [1, 2, 3].map((i) => (
-            <div key={i} className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden p-6 animate-pulse">
-              <div className="space-y-4">
+            <div key={i} className="bg-white/5 border border-white/5 rounded-2xl overflow-hidden animate-pulse">
+              <div className="aspect-video bg-white/5" />
+              <div className="p-6 space-y-4">
                 <div className="h-6 bg-white/5 rounded w-3/4" />
                 <div className="space-y-2">
                   <div className="h-4 bg-white/5 rounded" />
@@ -117,19 +119,27 @@ export const Certificates = () => {
                 </button>
               </div>
 
-              <div className="w-12 h-12 rounded-full bg-teal-500/10 flex items-center justify-center mb-6">
-                <Award className="text-teal-400" size={24} />
+              <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center mb-6">
+                <Award className="text-emerald-400" size={24} />
               </div>
-              <div className="flex gap-2 mb-3">
-                <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
-                  {certificate.category}
-                </span>
-                <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
-                  {certificate.date}
-                </span>
+
+              <div className="space-y-3">
+                <div className="flex gap-2">
+                  <span className="px-2 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full bg-white/5 text-white/40">
+                    {certificate.category}
+                  </span>
+                  <span className="px-2 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full bg-white/5 text-white/40">
+                    {certificate.date}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg mb-1">{certificate.title}</h3>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-medium text-emerald-400/60 uppercase tracking-wider">Issuer:</span>
+                    <p className="text-white/60 text-sm font-bold">{certificate.issuer}</p>
+                  </div>
+                </div>
               </div>
-              <h3 className="text-lg font-bold mb-1">{certificate.title}</h3>
-              <p className="text-white/40 text-sm">{certificate.issuer}</p>
             </div>
           ))
         )}
@@ -138,10 +148,8 @@ export const Certificates = () => {
       {/* Add Certificate Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm">
-          <div className="w-full max-w-2xl bg-dark border border-white/10 rounded-2xl overflow-hidden flex flex-col max-h-[90vh]">
-
-            {/* Form Side */}
-            <div className="flex-1 p-8 overflow-y-auto">
+          <div className="w-full max-w-lg bg-dark border border-white/10 rounded-2xl overflow-hidden max-h-[90vh] flex flex-col">
+            <div className="p-8 overflow-y-auto">
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-2xl font-bold font-display">
                   {editingCertificate ? 'Edit Certificate' : 'New Certificate'}
@@ -158,23 +166,30 @@ export const Certificates = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white/60">Issuer</label>
+                  <label className="text-sm font-medium text-white/60">Issuer (Giving Organization)</label>
                   <input {...register('issuer', { required: true })} placeholder="e.g. Amazon Web Services" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-white/60">Date</label>
-                  <input {...register('date', { required: true })} placeholder="e.g. 2023 or Jan 2023" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-white/60">Date</label>
+                    <input {...register('date', { required: true })} placeholder="e.g. 2023" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-white/60">Category</label>
+                    <input {...register('category', { required: true })} placeholder="e.g. Certification" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
+                  </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white/60">Category</label>
-                  <input {...register('category', { required: true })} placeholder="e.g. Certification, Course, Top 10%, Award" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
+                  <label className="text-sm font-medium text-white/60">Verification Link (Optional)</label>
+                  <input {...register('verificationUrl')} placeholder="https://..." className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-white/60">Icon (Lucide React Component Name - optional)</label>
-                  <input {...register('icon')} placeholder="e.g. Award, Star, Certificate" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
+                  <label className="text-sm font-medium text-white/60">Icon Name (Lucide React - optional)</label>
+                  <input {...register('icon')} placeholder="Award" className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-emerald-400 focus:outline-none" />
                 </div>
 
                 <button type="submit" className="w-full py-4 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-600 transition-colors">

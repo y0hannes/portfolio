@@ -162,7 +162,7 @@ const getCertificates = async (): Promise<Certificate[]> => {
     if (error) throw error;
     return (data || []).map((cert: any) => ({
       ...cert,
-      imageUrl: cert.image_url,
+      verificationUrl: cert.verification_url,
     }));
   } catch (error) {
     console.error('Failed to fetch certificates', error);
@@ -171,7 +171,16 @@ const getCertificates = async (): Promise<Certificate[]> => {
 };
 
 const addCertificate = async (data: Omit<Certificate, 'id'>): Promise<void> => {
-  const { error } = await supabase.from('certificates').insert([data]);
+  const certData = {
+    title: data.title,
+    issuer: data.issuer,
+    date: data.date,
+    category: data.category,
+    icon: data.icon || 'Award',
+    verification_url: data.verificationUrl,
+  };
+
+  const { error } = await supabase.from('certificates').insert([certData]);
   if (error) throw error;
 };
 
@@ -179,9 +188,16 @@ const updateCertificate = async (
   id: string,
   data: Partial<Certificate>,
 ): Promise<void> => {
+  const certData: any = { ...data };
+
+  if (data.verificationUrl !== undefined) {
+    certData.verification_url = data.verificationUrl;
+    delete certData.verificationUrl;
+  }
+
   const { error } = await supabase
     .from('certificates')
-    .update(data)
+    .update(certData)
     .eq('id', id);
   if (error) throw error;
 };

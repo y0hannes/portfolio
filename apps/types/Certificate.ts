@@ -5,6 +5,7 @@ export interface Certificate {
   date: string;
   category: string;
   icon: string;
+  verificationUrl?: string;
   createdAt?: string;
   updatedAt?: string;
 }

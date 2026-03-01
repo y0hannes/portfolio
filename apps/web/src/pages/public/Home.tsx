@@ -259,34 +259,58 @@ export const Home = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {certificates.map((cert, i) => {
               const Icon = (Icons as any)[cert.icon] || Icons.Award;
+
               return (
                 <motion.div
-                  key={i}
-                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  key={cert.id || i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="group relative rounded-2xl bg-white/5 border border-white/10 hover:border-emerald-500 transition-colors duration-300 flex flex-col p-6 h-full"
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  className="group relative flex flex-col bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-emerald-500/50 transition-all duration-300 h-full"
                 >
-                  <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center mb-6">
-                    <Icon className="text-emerald-400" size={24} />
+                  {/* Header: Icon and Date */}
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                      <Icon className="text-emerald-400" size={24} />
+                    </div>
+                    <span className="text-xs font-medium text-white/30 uppercase tracking-widest mt-1">
+                      {cert.date}
+                    </span>
                   </div>
 
-                  <div className="mt-auto">
-                    <div className="flex gap-2 mb-3">
-                      <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
+                  {/* Content */}
+                  <div className="flex flex-col flex-1">
+                    <div className="mb-6">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full mb-3 inline-block">
                         {cert.category}
                       </span>
-                      <span className="px-2 py-1 text-xs font-bold rounded-full bg-white/5 text-white/60">
-                        {cert.date}
-                      </span>
+                      <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors leading-tight">
+                        {cert.title}
+                      </h3>
+                      <div className="flex items-center gap-2 text-white/80">
+                        <span className="text-sm font-semibold text-emerald-400/80">Issued by:</span>
+                        <p className="text-sm font-bold tracking-tight">
+                          {cert.issuer}
+                        </p>
+                      </div>
                     </div>
-                    <h3 className="text-lg font-bold mb-1 group-hover:text-teal-400 transition-colors">
-                      {cert.title}
-                    </h3>
-                    <p className="text-white/40 text-sm">
-                      {cert.issuer}
-                    </p>
+
+                    {/* Verification Link */}
+                    <div className="mt-auto pt-6 border-t border-white/5">
+                      {cert.verificationUrl ? (
+                        <a
+                          href={cert.verificationUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors uppercase tracking-widest"
+                        >
+                          Verify Credential <ExternalLink size={12} />
+                        </a>
+                      ) : (
+                        <span className="text-[10px] text-white/20 italic uppercase tracking-wider">Verified Achievement</span>
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               );
