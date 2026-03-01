@@ -109,24 +109,26 @@ export const Layout = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white/5 backdrop-blur-md border-t border-white/10 py-12 mt-20">
+      <footer className="border-t border-white/5 py-8">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="text-center md:text-left">
-              <p className="text-white/40 text-sm">Building digital experiences that matter.</p>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
+                <span className="text-[8px] font-black text-emerald-400">YM</span>
+              </div>
+              <p className="text-white/20 text-xs uppercase tracking-widest font-medium">
+                © {new Date().getFullYear()} All rights reserved.
+              </p>
             </div>
 
-            <div className="flex items-center gap-6">
-              <a href="https://github.com/y0hannes" className="p-3 bg-white/5 rounded-full hover:bg-emerald-500/20 hover:text-emerald-400 transition-all">
+            <div className="flex items-center gap-4">
+              <a href="https://github.com/y0hannes" className="p-2 text-white/20 hover:text-emerald-400 transition-colors">
                 <Github size={20} />
               </a>
-              <a href="https://linkedin.com/yohannes-muluken" className="p-3 bg-white/5 rounded-full hover:bg-emerald-500/20 hover:text-emerald-400 transition-all">
+              <a href="https://linkedin.com/in/yohannes-muluken" className="p-2 text-white/20 hover:text-emerald-400 transition-colors">
                 <Linkedin size={20} />
               </a>
             </div>
-          </div>
-          <div className="mt-12 pt-8 border-t border-white/5 text-center text-white/20 text-sm">
-            © {new Date().getFullYear()} All rights reserved.
           </div>
         </div>
       </footer>

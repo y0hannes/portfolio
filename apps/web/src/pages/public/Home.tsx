@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Code2, Cpu, Globe, Send, ExternalLink, Brain, Database } from 'lucide-react';
+import { ArrowRight, Code2, Cpu, Globe, Send, ExternalLink, Brain, Database, Github, Linkedin } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { api } from '../../services/api';
 import { type Project } from '../../../../types/Project';
@@ -326,10 +326,29 @@ export const Home = () => {
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-xl mx-auto text-center mb-12">
             <h2 className="text-4xl font-bold font-display mb-4">Let's Work Together</h2>
-            <p className="text-white/60">Have a project in mind? Let's turn your idea into reality.</p>
+            <p className="text-white/60 mb-8">Have a project in mind? Let's turn your idea into reality.</p>
+
+            <div className="flex items-center justify-center gap-6">
+              <a
+                href="https://github.com/y0hannes/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 bg-white/5 border border-white/10 rounded-2xl hover:border-emerald-500 hover:text-emerald-400 transition-all duration-300"
+              >
+                <Github size={24} />
+              </a>
+              <a
+                href="https://linkedin.com/in/yohannes-muluken/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-4 bg-white/5 border border-white/10 rounded-2xl hover:border-emerald-500 hover:text-emerald-400 transition-all duration-300"
+              >
+                <Linkedin size={24} />
+              </a>
+            </div>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="max-w-xl mx-auto space-y-4">
             <div className="space-y-2">
               <input
                 {...register('name', { required: true })}
@@ -348,9 +367,9 @@ export const Home = () => {
             <div className="space-y-2">
               <textarea
                 {...register('content', { required: true })}
-                rows={4}
+                rows={10}
                 placeholder="Tell me about your project..."
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-emerald-400 focus:bg-white/10 transition-all resize-none"
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-emerald-400 focus:bg-white/10 transition-all resize-y"
               />
             </div>
             <button
