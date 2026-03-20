@@ -141,8 +141,12 @@ const deleteProject = async (id: string): Promise<void> => {
 };
 
 const updateProjectsOrder = async (projects: { id: string, sort_order: number }[]): Promise<void> => {
-  const { error } = await supabase.from('projects').upsert(projects);
-  if (error) throw error;
+  const promises = projects.map(p =>
+    supabase.from('projects').update({ sort_order: p.sort_order }).eq('id', p.id)
+  );
+  const results = await Promise.all(promises);
+  const errors = results.filter(r => r.error).map(r => r.error);
+  if (errors.length > 0) throw errors[0];
 };
 
 const getMessages = async (): Promise<Message[]> => {
