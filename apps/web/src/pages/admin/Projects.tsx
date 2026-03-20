@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { api } from '../../services/api';
 import { useToast } from '../../components/common/Toast';
 import { type Project } from '../../../../types/Project';
-import { Trash2, Plus, X, Pencil, Image as ImageIcon } from 'lucide-react';
+import { Trash2, Plus, X, Pencil, Image as ImageIcon, ChevronUp, ChevronDown } from 'lucide-react';
 
 
 export const Projects = () => {
@@ -104,6 +104,32 @@ export const Projects = () => {
     }
   };
 
+  const handleMove = async (index: number, direction: 'up' | 'down') => {
+    const newIndex = direction === 'up' ? index - 1 : index + 1;
+    if (newIndex < 0 || newIndex >= projects.length) return;
+
+    const newProjects = [...projects];
+    const temp = newProjects[index];
+    newProjects[index] = newProjects[newIndex];
+    newProjects[newIndex] = temp;
+
+    // Update sort_order for all affected projects
+    const updates = newProjects.map((p, i) => ({
+      id: p.id!,
+      sort_order: i
+    }));
+
+    setProjects(newProjects);
+
+    try {
+      await api.updateProjectsOrder(updates);
+      addToast('Order updated');
+    } catch (error) {
+      addToast('Failed to update order', 'error');
+      loadProjects(); // Revert on failure
+    }
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
@@ -137,11 +163,27 @@ export const Projects = () => {
             </div>
           ))
         ) : (
-          projects.map((project) => (
+          projects.map((project, index) => (
             <div key={project.id} className="group relative bg-white/5 border border-white/5 rounded-2xl overflow-hidden hover:border-white/20 transition-colors">
               <div className="aspect-video bg-black/50 relative">
                 <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+                  <div className="flex flex-col gap-2">
+                    <button
+                      onClick={() => handleMove(index, 'up')}
+                      disabled={index === 0}
+                      className="p-2 bg-white/20 text-white rounded-full hover:bg-white/40 transition-colors disabled:opacity-30"
+                    >
+                      <ChevronUp size={20} />
+                    </button>
+                    <button
+                      onClick={() => handleMove(index, 'down')}
+                      disabled={index === projects.length - 1}
+                      className="p-2 bg-white/20 text-white rounded-full hover:bg-white/40 transition-colors disabled:opacity-30"
+                    >
+                      <ChevronDown size={20} />
+                    </button>
+                  </div>
                   <button
                     onClick={() => openModal(project)}
                     className="p-3 bg-white/20 text-white rounded-full hover:bg-white/40 transition-colors"

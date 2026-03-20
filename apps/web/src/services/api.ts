@@ -52,7 +52,7 @@ const getProjects = async (): Promise<Project[]> => {
     const { data, error } = await supabase
       .from('projects')
       .select('*')
-      .order('created_at', { ascending: false });
+      .order('sort_order', { ascending: true });
 
     if (error) throw error;
 
@@ -61,6 +61,7 @@ const getProjects = async (): Promise<Project[]> => {
       codeLink: project.code_link,
       imageUrl: project.image_url,
       isFinished: project.is_finished,
+      sortOrder: project.sort_order,
     }));
   } catch (error) {
     console.error('Failed to fetch projects', error);
@@ -77,6 +78,17 @@ const addProject = async (formData: FormData): Promise<void> => {
     if (uploadedUrl) imageUrl = uploadedUrl;
   }
 
+  // Get current max sort_order
+  const { data: maxOrderData } = await supabase
+    .from('projects')
+    .select('sort_order')
+    .order('sort_order', { ascending: false })
+    .limit(1);
+
+  const nextOrder = maxOrderData && maxOrderData.length > 0
+    ? (maxOrderData[0].sort_order || 0) + 1
+    : 0;
+
   const projectData = {
     title: formData.get('title') as string,
     description: formData.get('description') as string,
@@ -85,6 +97,7 @@ const addProject = async (formData: FormData): Promise<void> => {
     link: formData.get('link') as string,
     is_finished: formData.get('isFinished') === 'true',
     image_url: imageUrl,
+    sort_order: nextOrder,
   };
 
   const { error } = await supabase.from('projects').insert([projectData]);
@@ -124,6 +137,11 @@ const updateProject = async (id: string, formData: FormData): Promise<void> => {
 
 const deleteProject = async (id: string): Promise<void> => {
   const { error } = await supabase.from('projects').delete().eq('id', id);
+  if (error) throw error;
+};
+
+const updateProjectsOrder = async (projects: { id: string, sort_order: number }[]): Promise<void> => {
+  const { error } = await supabase.from('projects').upsert(projects);
   if (error) throw error;
 };
 
@@ -213,6 +231,7 @@ export const api = {
   addProject,
   updateProject,
   deleteProject,
+  updateProjectsOrder,
   getMessages,
   sendMessage,
   deleteMessage,

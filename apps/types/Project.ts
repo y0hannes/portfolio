@@ -7,6 +7,7 @@ export interface Project {
   isFinished: boolean;
   link?: string;
   imageUrl?: string;
+  sortOrder: number;
   createdAt?: string;
   updatedAt?: string;
 }
