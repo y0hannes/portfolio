@@ -167,6 +167,22 @@ const getMessages = async (): Promise<Message[]> => {
 const sendMessage = async (messageData: Omit<Message, 'id'>): Promise<void> => {
   const { error } = await supabase.from('messages').insert([messageData]);
   if (error) throw error;
+
+  // Call Edge Function to send Telegram notification
+  const edgeFunctionUrl = import.meta.env.VITE_TELEGRAM_NOTIFY_URL;
+  if (edgeFunctionUrl) {
+    const res = await fetch(edgeFunctionUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ record: messageData }), // wrap the messageData in `record`
+    });
+
+    const result = await res.json();
+    if (!res.ok) {
+      console.error('Telegram notification failed:', result.error);
+    }
+  }
+
 };
 
 const deleteMessage = async (id: string): Promise<void> => {
