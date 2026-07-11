@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Github, Linkedin, Mail, Sun, Moon } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Mail, Sun, Moon, Download } from 'lucide-react';
 
 export const Layout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -32,6 +32,8 @@ export const Layout = () => {
       localStorage.setItem('theme', 'light');
     }
   }, [isDark]);
+
+  const cvUrl = import.meta.env.VITE_CV_URL as string;
 
   const navLinks = [
     { name: 'About',        href: '#about' },
@@ -99,8 +101,19 @@ export const Layout = () => {
             </a>
           ))}
 
-          {/* Divider + theme toggle */}
+          {/* Divider + CV download + theme toggle */}
           <span className="w-px h-4 bg-border mx-1" />
+          <a
+            href={cvUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-[13px] text-ink-3 hover:text-ink rounded-full hover:bg-surface-2 transition-all duration-150 whitespace-nowrap"
+            aria-label="View CV"
+          >
+            <Download size={13} />
+            CV
+          </a>
+          <span className="w-px h-4 bg-border mx-0.5" />
           <ThemeToggle />
         </motion.nav>
 
@@ -123,6 +136,15 @@ export const Layout = () => {
               <span className="text-[7px] font-bold text-canvas tracking-tight leading-none">YM</span>
             </div>
             <span className="text-sm font-medium text-ink">YM</span>
+          </a>
+          <a
+            href={cvUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-1.5 rounded-full text-ink-3 hover:text-ink hover:bg-surface-2 transition-all duration-150"
+            aria-label="View CV"
+          >
+            <Download size={15} />
           </a>
           <ThemeToggle size={15} />
           <button
