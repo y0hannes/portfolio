@@ -7,84 +7,43 @@ interface StatCardProps {
   icon: React.ComponentType<{ size?: number; className?: string }>;
   label: string;
   value: number | string;
-  color: string;
 }
 
-const StatCard = ({ icon: Icon, label, value, color }: StatCardProps) => (
-  <div className="p-6 bg-white/5 border border-white/5 rounded-2xl hover:bg-white/10 transition-colors">
-    <div className="flex items-center justify-between mb-4">
-      <div className={`p-3 rounded-xl ${color} bg-opacity-20`}>
-        <Icon size={24} className={color.replace('bg-', 'text-')} />
-      </div>
+const StatCard = ({ icon: Icon, label, value }: StatCardProps) => (
+  <div className="p-6 bg-dark-3 border border-white/[0.06] rounded-xl hover:border-accent/30 transition-colors duration-200">
+    <div className="w-9 h-9 rounded-lg bg-accent/15 border border-accent/20 flex items-center justify-center mb-5">
+      <Icon size={18} className="text-sand/60" />
     </div>
-    <div className="text-3xl font-bold mb-1">{value}</div>
-    <div className="text-white/40 text-sm">{label}</div>
+    <div className="text-2xl font-medium text-sand mb-1">{value}</div>
+    <div className="text-sm text-sand/30">{label}</div>
   </div>
 );
 
 export const Dashboard = () => {
-  const [stats, setStats] = useState({
-    projects: 0,
-    messages: 0,
-    views: 1234 // Mock view count
-  });
+  const [stats, setStats] = useState({ projects: 0, messages: 0, views: 1234 });
 
   useEffect(() => {
-    Promise.all([
-      api.getProjects(),
-      api.getMessages()
-    ]).then(([projects, messages]) => {
-      setStats(prev => ({
-        ...prev,
-        projects: projects.length,
-        messages: messages.length
-      }));
+    Promise.all([api.getProjects(), api.getMessages()]).then(([projects, messages]) => {
+      setStats(prev => ({ ...prev, projects: projects.length, messages: messages.length }));
     });
   }, []);
 
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-display font-bold">Dashboard</h1>
-        <Link to="/admin/projects" className="px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors flex items-center gap-2">
-          <Plus size={18} />
-          <span>New Project</span>
+        <h1 className="text-xl font-medium text-sand">Dashboard</h1>
+        <Link
+          to="/admin/projects"
+          className="px-4 py-2 bg-accent text-canvas text-sm font-medium rounded-lg hover:bg-accent-2 transition-colors duration-200 flex items-center gap-2"
+        >
+          <Plus size={16} /> New Project
         </Link>
       </div>
-
-      <div className="grid md:grid-cols-3 gap-6">
-        <StatCard 
-          icon={Users} 
-          label="Total Views" 
-          value={stats.views} 
-          color="bg-teal-500" 
-        />
-        <StatCard 
-          icon={Layout} 
-          label="Projects" 
-          value={stats.projects} 
-          color="bg-emerald-500" 
-        />
-        <StatCard 
-          icon={MessageSquare} 
-          label="Messages" 
-          value={stats.messages} 
-          color="bg-lime-500" 
-        />
+      <div className="grid md:grid-cols-3 gap-4">
+        <StatCard icon={Users}         label="Total Views" value={stats.views} />
+        <StatCard icon={Layout}        label="Projects"    value={stats.projects} />
+        <StatCard icon={MessageSquare} label="Messages"    value={stats.messages} />
       </div>
-
-      {/* <div className="p-8 bg-white/5 border border-white/5 rounded-2xl">
-        <h2 className="text-xl font-bold mb-6">Recent Activity</h2>
-        <div className="space-y-4">
-          {[1, 2, 3].map((_, i) => (
-            <div key={i} className="flex items-center gap-4 text-sm text-white/60 py-2 border-b border-white/5 last:border-0">
-              <div className="w-2 h-2 rounded-full bg-emerald-400" />
-              <span>New connection received from United States</span>
-              <span className="ml-auto text-white/20">2m ago</span>
-            </div>
-          ))}
-        </div>
-      </div> */}
     </div>
   );
 };

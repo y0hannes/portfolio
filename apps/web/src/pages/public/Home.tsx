@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Code2, Cpu, Globe, Send, ExternalLink, Brain, Database, Github, Linkedin } from 'lucide-react';
+import {
+  ArrowRight, Code2, Cpu, Globe, Send, ExternalLink,
+  Brain, Database, Github, Linkedin, ArrowUpRight,
+} from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { api } from '../../services/api';
 import { type Project } from '../../../../types/Project';
@@ -8,28 +11,27 @@ import { type Certificate } from '../../../../types/Certificate';
 import { useForm } from 'react-hook-form';
 import { useToast } from '../../components/common/Toast';
 
-interface ContactFormData {
-  name: string;
-  email: string;
-  content: string;
-}
+interface ContactFormData { name: string; email: string; content: string; }
+
+/* tiny helpers */
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 22 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6, ease: 'easeOut', delay },
+});
 
 export const Home = () => {
   const [projects, setProjects] = useState<Project[]>([]);
-
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
   const { addToast } = useToast();
   const { register, handleSubmit, reset } = useForm<ContactFormData>();
 
   useEffect(() => {
-    Promise.all([
-      api.getProjects(),
-      api.getCertificates()
-    ]).then(([projectsData, certsData]) => {
-      setProjects(projectsData);
-      setCertificates(certsData);
-    }).finally(() => setLoading(false));
+    Promise.all([api.getProjects(), api.getCertificates()])
+      .then(([p, c]) => { setProjects(p); setCertificates(c); })
+      .finally(() => setLoading(false));
   }, []);
 
   const onSubmit = async (data: ContactFormData) => {
@@ -37,278 +39,335 @@ export const Home = () => {
       await api.sendMessage(data);
       reset();
       addToast('Message sent successfully!');
-    } catch (error) {
+    } catch {
       addToast('Failed to send message', 'error');
     }
   };
 
   return (
     <div className="overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center p-6">
-        {/* Professional Clean Background */}
-        <div className="absolute inset-0 bg-dark overflow-hidden pointer-events-none" />
 
-        <div className="relative z-10 text-center max-w-4xl mx-auto">
+      {/* HERO */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-20 overflow-hidden">
+
+        {/* Background warm gradient */}
+        <div className="absolute inset-0 bg-warm-gradient pointer-events-none" />
+
+        {/* Decorative large faded monogram */}
+        <div
+          aria-hidden
+          className="absolute right-[-4rem] top-1/2 -translate-y-1/2 font-serif font-medium text-[22rem] leading-none text-accent/[0.02] select-none pointer-events-none hidden lg:block"
+        >
+          YM
+        </div>
+
+        {/* Decorative corner lines */}
+        <div aria-hidden className="absolute top-24 left-6 w-16 h-16 border-t border-l border-parchment/60 pointer-events-none" />
+        <div aria-hidden className="absolute bottom-16 right-6 w-16 h-16 border-b border-r border-parchment/60 pointer-events-none" />
+
+        <div className="relative z-10 text-center max-w-3xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.75, ease: 'easeOut' }}
           >
-            <h2 className="text-emerald-400 font-medium tracking-wide mb-4">FULL STACK DEVELOPER</h2>
-            <h1 className="text-5xl md:text-8xl font-bold font-display tracking-tight mb-8">
-              Crafting Digital
-              <br />
-              <span className="bg-gradient-to-r from-emerald-400 via-teal-400 to-lime-400 text-transparent bg-clip-text">
-                Experiences
+            {/* Label */}
+            <div className="inline-flex items-center gap-2 mb-8">
+              <span className="w-6 h-px bg-accent/50" />
+              <span className="text-[11px] font-medium tracking-[0.25em] uppercase text-ink-3">
+                Full Stack Developer
               </span>
+              <span className="w-6 h-px bg-accent/50" />
+            </div>
+
+            {/* Headline */}
+            <h1 className="font-serif text-5xl md:text-[5.5rem] font-medium leading-[1.06] tracking-tight text-ink mb-3">
+              Crafting Digital
             </h1>
-            <p className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-12 leading-relaxed">
-              I build accessible, pixel-perfect, performant, and reliable tech solutions that leave a lasting impression.
+            <h1 className="font-serif text-5xl md:text-[5.5rem] font-medium leading-[1.06] tracking-tight text-accent mb-8">
+              Experiences
+            </h1>
+
+            <p className="text-base md:text-lg text-ink-3 max-w-lg mx-auto mb-12 leading-relaxed">
+              I build accessible, pixel-perfect, performant, and reliable tech solutions
+              that leave a lasting impression.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            {/* CTA */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <a
                 href="#work"
-                className="px-8 py-4 bg-white text-dark font-bold rounded-full hover:bg-emerald-400 transition-colors flex items-center gap-2"
+                className="group inline-flex items-center gap-2.5 px-7 py-3.5 bg-accent text-canvas text-sm font-medium rounded-full hover:bg-accent-2 transition-colors duration-250 shadow-warm"
               >
-                View Work <ArrowRight size={20} />
+                View Work
+                <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform duration-200" />
               </a>
               <a
                 href="#contact"
-                className="px-8 py-4 bg-white/5 text-white font-medium rounded-full border border-white/10 hover:bg-white/10 transition-colors backdrop-blur-md"
+                className="inline-flex items-center gap-2 px-7 py-3.5 text-sm font-medium text-ink-2 rounded-full border border-border-warm bg-surface hover:bg-surface-2 transition-colors duration-200"
               >
-                Contact Me
+                Get in Touch
               </a>
             </div>
+
+            {/* Scroll nudge */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.2, duration: 0.6 }}
+              className="mt-20 flex flex-col items-center gap-2"
+            >
+              <span className="text-[10px] uppercase tracking-[0.2em] text-ink-4">Scroll</span>
+              <div className="w-px h-10 bg-gradient-to-b from-parchment to-transparent" />
+            </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* About / Skills Section */}
-      <section id="about" className="py-24 relative overflow-hidden bg-black/40">
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold font-display mb-8 leading-tight">
-                Design meets <br />
-                <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
-                  Engineering
-                </span>
+      {/*Warm divider*/}
+      <div className="max-w-5xl mx-auto px-6">
+        <hr className="rule-warm" />
+      </div>
+
+      {/*           ABOUT / SKILLS
+      */}
+      <section id="about" className="py-28 bg-canvas">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-20 items-start">
+
+            {/* Left: text */}
+            <motion.div {...fadeUp()}>
+              <p className="text-[11px] font-medium tracking-[0.22em] uppercase text-ink-4 mb-5 flex items-center gap-2">
+                <span className="w-4 h-px bg-accent/50 inline-block" /> About
+              </p>
+              <h2 className="font-serif text-4xl md:text-[2.8rem] font-medium tracking-tight text-ink leading-[1.15] mb-7">
+                Design meets<br />
+                <em className="not-italic text-accent">Engineering</em>
               </h2>
-              <p className="text-white/60 text-lg leading-relaxed mb-8 max-w-xl">
-                I'm a developer who cares deeply about user experience and technical excellence. My approach combines a strong foundation in <span className="text-emerald-400">Data Structures and Algorithms</span> with a passion for building <span className="text-teal-400">high-performance, scalable, and reliable</span> digital experiences.
-                <br /><br />
-                With my experience, I bridge the gap between complex engineering and pixel-perfect design, ensuring every application I build is not only beautiful but also robust and performant.
+
+              <p className="text-ink-3 text-[15px] leading-[1.8] mb-5">
+                I'm a developer who cares deeply about user experience and technical excellence.
+                My approach blends a strong foundation in Data Structures &amp; Algorithms with
+                a passion for building high-performance, scalable digital experiences.
+              </p>
+              <p className="text-ink-3 text-[15px] leading-[1.8] mb-12">
+                I bridge the gap between complex engineering and refined design — every
+                application I build is both robust and carefully considered.
               </p>
 
-              <div className="flex gap-6 items-center">
-                <div className="flex flex-col">
-                  <span className="text-3xl font-bold text-white">3+</span>
-                  <span className="text-sm text-white/40 uppercase tracking-wider">Years Exp</span>
-                </div>
-                <div className="w-px h-12 bg-white/10" />
-                <div className="flex flex-col">
-                  <span className="text-3xl font-bold text-white">10+</span>
-                  <span className="text-sm text-white/40 uppercase tracking-wider">Projects</span>
+              {/* Stats */}
+              <div className="flex gap-10 items-center">
+                {[['3+', 'Years Exp'], ['10+', 'Projects Built']].map(([val, lbl], i) => (
+                  <div key={i}>
+                    <span className="font-serif text-3xl font-medium text-accent">{val}</span>
+                    <p className="text-[10px] font-medium text-ink-4 uppercase tracking-[0.18em] mt-1">{lbl}</p>
+                  </div>
+                ))}
+                <div className="w-px h-10 bg-border" />
+                {/* Availability chip */}
+                <div className="flex items-center gap-2 px-3.5 py-1.5 bg-surface-2 border border-border rounded-full">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                  <span className="text-[11px] font-medium text-ink-3">Available</span>
                 </div>
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, x: 50 }}
-              whileInView={{ opacity: 1, scale: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="grid grid-cols-2 gap-4"
-            >
-              {
-                [
-                  {
-                    icon: Code2,
-                    label: 'Frontend',
-                    desc: 'React, Next.js, TypeScript, Tailwind, Vite'
-                  },
-                  {
-                    icon: Cpu,
-                    label: 'Backend & APIs',
-                    desc: 'Node.js, Express, Django, NestJS, REST APIs, Webhooks'
-                  },
-                  {
-                    icon: Globe,
-                    label: 'Systems & Bots',
-                    desc: 'Telegram Bots, Background Jobs, Caching, PostgreSQL, SQLite'
-                  },
-                  {
-                    icon: Brain,
-                    label: 'ML & AI',
-                    desc: 'RAG Systems, LLMs, Embeddings, PDF Chatbots, Vector Databases'
-                  },
-                  {
-                    icon: Database,
-                    label: 'Data Structures & Algorithms',
-                    desc: 'Problem Solving, Time–Space Optimization, Competitive DSA'
-                  },
-                  {
-                    icon: Send,
-                    label: 'Design & UX',
-                    desc: 'Figma, Framer, UI/UX Principles'
-                  }
-                ]
-
-                  .map((skill, i) => (
-                    <div
-                      key={i}
-                      className="group p-8 rounded-3xl bg-white/[0.03] border border-white/10 hover:border-emerald-500 transition-colors duration-300"
-                    >
-                      <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center mb-6">
-                        <skill.icon className="text-emerald-400" size={24} />
-                      </div>
-                      <h3 className="font-bold text-lg mb-2">{skill.label}</h3>
-                      <p className="text-sm text-white/40 leading-relaxed">{skill.desc}</p>
-                    </div>
-                  ))}
+            {/* Right: skill cards */}
+            <motion.div {...fadeUp(0.1)} className="grid grid-cols-2 gap-3">
+              {[
+                { icon: Code2, label: 'Frontend', desc: 'React, Next.js, TypeScript, Tailwind, Vite' },
+                { icon: Cpu, label: 'Backend', desc: 'Node.js, Express, Django, NestJS, REST, Webhooks' },
+                { icon: Globe, label: 'Systems', desc: 'Telegram Bots, Caching, PostgreSQL, SQLite' },
+                { icon: Brain, label: 'ML & AI', desc: 'RAG, LLMs, Embeddings, PDF Chatbots, Vectors' },
+                { icon: Database, label: 'DSA', desc: 'Problem Solving, Time–Space Optimization' },
+                { icon: Send, label: 'Design & UX', desc: 'Figma, Framer, UI/UX Principles' },
+              ].map((skill, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  transition={{ duration: 0.2 }}
+                  className="p-5 rounded-xl bg-surface border border-border hover:border-parchment hover:shadow-card transition-all duration-200 cursor-default"
+                >
+                  <div className="w-9 h-9 rounded-lg bg-surface-3 border border-border flex items-center justify-center mb-4">
+                    <skill.icon size={17} className="text-accent" />
+                  </div>
+                  <h3 className="text-sm font-medium text-ink mb-1">{skill.label}</h3>
+                  <p className="text-[12px] text-ink-4 leading-relaxed">{skill.desc}</p>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section id="work" className="py-24">
-        <div className="container mx-auto px-6">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold font-display mb-16 text-center"
-          >
-            Featured <span className="text-teal-400">Projects</span>
-          </motion.h2>
+      {/*Warm divider*/}
+      <div className="max-w-5xl mx-auto px-6">
+        <hr className="rule-warm" />
+      </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* PROJECTS */}
+      <section id="work" className="py-28 bg-surface">
+        <div className="max-w-5xl mx-auto px-6">
+          <motion.div {...fadeUp()} className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-14">
+            <div>
+              <p className="text-[11px] font-medium tracking-[0.22em] uppercase text-ink-4 mb-3 flex items-center gap-2">
+                <span className="w-4 h-px bg-accent/50" /> Selected Work
+              </p>
+              <h2 className="font-serif text-4xl md:text-[2.8rem] font-medium tracking-tight text-ink leading-tight">
+                Featured Projects
+              </h2>
+            </div>
+            <p className="text-sm text-ink-3 max-w-xs leading-relaxed text-left sm:text-right">
+              A curated selection of projects I've built with care.
+            </p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {loading ? (
-              // Loading state
               Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} className="rounded-2xl bg-white/5 border border-white/5 p-6 animate-pulse">
-                  <div className="aspect-video bg-white/5 rounded-xl mb-6" />
-                  <div className="h-4 w-1/3 bg-white/5 rounded mb-4" />
-                  <div className="h-6 w-2/3 bg-white/5 rounded mb-4" />
-                  <div className="h-20 w-full bg-white/5 rounded mb-6" />
+                <div key={i} className="rounded-2xl bg-surface-2 border border-border overflow-hidden animate-pulse">
+                  <div className="aspect-video bg-surface-3" />
+                  <div className="p-6 space-y-3">
+                    <div className="h-3 w-1/3 bg-surface-3 rounded-full" />
+                    <div className="h-5 w-2/3 bg-surface-3 rounded-full" />
+                    <div className="h-14 bg-surface-3 rounded-lg" />
+                  </div>
                 </div>
               ))
             ) : projects.length > 0 ? (
               projects.map((project, i) => (
                 <motion.div
                   key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="group relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-emerald-500 transition-colors duration-300"
+                  {...fadeUp(i * 0.08)}
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.25 }}
+                  className="group rounded-2xl overflow-hidden bg-canvas border border-border hover:border-parchment hover:shadow-elevated transition-all duration-250"
                 >
-                  <div className="aspect-video overflow-hidden">
+                  {/* Image */}
+                  <div className="aspect-video overflow-hidden bg-surface-2 relative">
                     <img
                       src={project.imageUrl}
                       alt={project.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500"
                     />
+                    {/* Overlay link */}
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute inset-0 flex items-center justify-center bg-accent/0 group-hover:bg-accent/70 transition-all duration-300 opacity-0 group-hover:opacity-100"
+                      aria-label={`Open ${project.title}`}
+                    >
+                      <div className="w-12 h-12 rounded-full bg-canvas/90 flex items-center justify-center shadow-card">
+                        <ArrowUpRight size={20} className="text-accent" />
+                      </div>
+                    </a>
                   </div>
+
+                  {/* Body */}
                   <div className="p-6">
-                    <div className="flex gap-2 mb-4 flex-wrap">
-                      {project.tags.map(tag => (
-                        <span key={tag} className="px-3 py-1 text-xs font-medium rounded-full bg-emerald-500/10 text-emerald-400">
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {project.tags.slice(0, 3).map(tag => (
+                        <span
+                          key={tag}
+                          className="px-2.5 py-0.5 text-[11px] font-medium rounded-full bg-surface-2 text-ink-3 border border-border"
+                        >
                           {tag}
                         </span>
                       ))}
                     </div>
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-emerald-400 transition-colors">{project.title}</h3>
-                    <p className="text-white/70 text-base mb-6 line-clamp-6 leading-relaxed">{project.description}</p>
-
-                    <a href={project.link} className="inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wider hover:text-emerald-400 transition-colors">
-                      View Project <ExternalLink size={16} />
+                    <h3 className="font-serif text-lg font-medium text-ink mb-2 leading-snug">
+                      {project.title}
+                    </h3>
+                    <p className="text-[13px] text-ink-3 mb-5 line-clamp-3 leading-relaxed">
+                      {project.description}
+                    </p>
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-[11px] font-medium text-accent hover:text-accent-2 transition-colors duration-200 uppercase tracking-wider"
+                    >
+                      View Project <ExternalLink size={12} />
                     </a>
                   </div>
                 </motion.div>
               ))
             ) : (
-              <div className="col-span-full text-center py-20 bg-white/5 rounded-2xl border border-white/5">
-                <p className="text-white/40">No projects found.</p>
+              <div className="col-span-full text-center py-24 rounded-2xl border border-border bg-canvas">
+                <p className="text-ink-4 text-sm">No projects yet.</p>
               </div>
             )}
           </div>
         </div>
       </section>
 
-      {/* Certificates & Accomplishments Section */}
-      <section id="certificates" className="py-24 relative overflow-hidden">
-        <div className="container mx-auto px-6 relative z-10">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold font-display mb-16 text-center"
-          >
-            Certificates & <span className="text-teal-400">Accomplishments</span>
-          </motion.h2>
+      {/*Warm divider*/}
+      <div className="max-w-5xl mx-auto px-6 bg-surface">
+        <hr className="rule-warm" />
+      </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* CERTIFICATES */}
+      <section id="certificates" className="py-28 bg-surface">
+        <div className="max-w-5xl mx-auto px-6">
+          <motion.div {...fadeUp()} className="mb-14">
+            <p className="text-[11px] font-medium tracking-[0.22em] uppercase text-ink-4 mb-3 flex items-center gap-2">
+              <span className="w-4 h-px bg-accent/50" /> Recognition
+            </p>
+            <h2 className="font-serif text-4xl md:text-[2.8rem] font-medium tracking-tight text-ink leading-tight">
+              Certificates &amp; Accomplishments
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {certificates.map((cert, i) => {
               const Icon = (Icons as any)[cert.icon] || Icons.Award;
-
               return (
                 <motion.div
                   key={cert.id || i}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  className="group relative flex flex-col bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-emerald-500/50 transition-all duration-300 h-full"
+                  {...fadeUp(i * 0.07)}
+                  whileHover={{ y: -3 }}
+                  transition={{ duration: 0.22 }}
+                  className="group flex flex-col bg-canvas border border-border rounded-2xl p-6 hover:border-parchment hover:shadow-card transition-all duration-200 h-full"
                 >
-                  {/* Header: Icon and Date */}
+                  {/* Header */}
                   <div className="flex justify-between items-start mb-6">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                      <Icon className="text-emerald-400" size={24} />
+                    <div className="w-11 h-11 rounded-xl bg-surface-2 border border-border flex items-center justify-center">
+                      <Icon size={20} className="text-accent" />
                     </div>
-                    <span className="text-xs font-medium text-white/30 uppercase tracking-widest mt-1">
+                    <span className="text-[11px] font-medium text-ink-4 uppercase tracking-widest mt-1">
                       {cert.date}
                     </span>
                   </div>
 
                   {/* Content */}
                   <div className="flex flex-col flex-1">
-                    <div className="mb-6">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full mb-3 inline-block">
-                        {cert.category}
-                      </span>
-                      <h3 className="text-xl font-bold mb-2 group-hover:text-emerald-400 transition-colors leading-tight">
-                        {cert.title}
-                      </h3>
-                      <div className="flex items-center gap-2 text-white/80">
-                        <span className="text-sm font-semibold text-emerald-400/80">Issued by:</span>
-                        <p className="text-sm font-bold tracking-tight">
-                          {cert.issuer}
-                        </p>
-                      </div>
+                    <span className="text-[10px] font-medium uppercase tracking-widest text-accent bg-accent/8 border border-accent/15 px-2.5 py-0.5 rounded-full mb-3 inline-block w-fit">
+                      {cert.category}
+                    </span>
+                    <h3 className="font-serif text-[17px] font-medium text-ink mb-2 leading-snug">
+                      {cert.title}
+                    </h3>
+                    <div className="flex items-center gap-1.5 mb-auto">
+                      <span className="text-[11px] text-ink-4">Issued by</span>
+                      <span className="text-[11px] font-medium text-ink-3">{cert.issuer}</span>
                     </div>
 
-                    {/* Verification Link */}
-                    <div className="mt-auto pt-6 border-t border-white/5">
+                    {/* Footer */}
+                    <div className="mt-5 pt-4 border-t border-border">
                       {cert.verificationUrl ? (
                         <a
                           href={cert.verificationUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition-colors uppercase tracking-widest"
+                          className="inline-flex items-center gap-1.5 text-[11px] font-medium text-accent hover:text-accent-2 transition-colors duration-200 uppercase tracking-wider"
                         >
-                          Verify Credential <ExternalLink size={12} />
+                          Verify Credential <ExternalLink size={11} />
                         </a>
                       ) : (
-                        <span className="text-[10px] text-white/20 italic uppercase tracking-wider">Verified Achievement</span>
+                        <span className="text-[10px] font-medium text-ink-4 uppercase tracking-wider">
+                          Verified Achievement
+                        </span>
                       )}
                     </div>
                   </div>
@@ -319,68 +378,124 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-emerald-900/10 pointer-events-none" />
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="max-w-xl mx-auto text-center mb-12">
-            <h2 className="text-4xl font-bold font-display mb-4">Let's Work Together</h2>
-            <p className="text-white/60 mb-8">Have a project in mind? Let's turn your idea into reality.</p>
-
-            <div className="flex items-center justify-center gap-6">
-              <a
-                href="https://github.com/y0hannes/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 bg-white/5 border border-white/10 rounded-2xl hover:border-emerald-500 hover:text-emerald-400 transition-all duration-300"
-              >
-                <Github size={24} />
-              </a>
-              <a
-                href="https://linkedin.com/in/yohannes-muluken/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 bg-white/5 border border-white/10 rounded-2xl hover:border-emerald-500 hover:text-emerald-400 transition-all duration-300"
-              >
-                <Linkedin size={24} />
-              </a>
-            </div>
+      {/*Full-width accent banner*/}
+      {/* <div className="bg-accent-gradient py-16">
+        <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <p className="text-sand text-sm font-medium mb-1 tracking-wide">Open to opportunities</p>
+            <h3 className="font-serif text-2xl md:text-3xl font-medium text-canvas">
+              Have a project in mind?
+            </h3>
           </div>
+          <a
+            href="#contact"
+            className="flex-shrink-0 inline-flex items-center gap-2.5 px-7 py-3.5 bg-canvas text-accent text-sm font-medium rounded-full hover:bg-surface transition-colors duration-200 shadow-warm"
+          >
+            Let's Talk <ArrowRight size={15} />
+          </a>
+        </div>
+      </div> */}
 
-          <form onSubmit={handleSubmit(onSubmit)} className="max-w-xl mx-auto space-y-4">
-            <div className="space-y-2">
-              <input
-                {...register('name', { required: true })}
-                placeholder="Your Name"
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-emerald-400 focus:bg-white/10 transition-all"
-              />
-            </div>
-            <div className="space-y-2">
-              <input
-                {...register('email', { required: true })}
-                type="email"
-                placeholder="Email Address"
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-emerald-400 focus:bg-white/10 transition-all"
-              />
-            </div>
-            <div className="space-y-2">
-              <textarea
-                {...register('content', { required: true })}
-                rows={10}
-                placeholder="Tell me about your project..."
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:outline-none focus:border-emerald-400 focus:bg-white/10 transition-all resize-y"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold rounded-lg hover:opacity-90 transition-opacity"
-            >
-              Send Message
-            </button>
-          </form>
+      {/*           CONTACT
+      */}
+      <section id="contact" className="py-28 bg-canvas">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="grid lg:grid-cols-2 gap-20 items-start">
+
+            {/* Left */}
+            <motion.div {...fadeUp()}>
+              <p className="text-[11px] font-medium tracking-[0.22em] uppercase text-ink-4 mb-5 flex items-center gap-2">
+                <span className="w-4 h-px bg-accent/50" /> Contact
+              </p>
+              <h2 className="font-serif text-4xl md:text-[2.8rem] font-medium tracking-tight text-ink leading-[1.15] mb-7">
+                Let's Work<br />
+                <em className="not-italic text-accent">Together</em>
+              </h2>
+              <p className="text-[15px] text-ink-3 leading-[1.8] mb-10">
+                Have a project in mind, want to collaborate, or just want to say hello?
+                I'd love to hear from you.
+              </p>
+
+              {/* Social links */}
+              <div className="space-y-3">
+                <a
+                  href="https://github.com/y0hannes/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-surface-2 border border-border flex items-center justify-center group-hover:bg-surface-3 group-hover:border-parchment transition-colors duration-200">
+                    <Github size={18} className="text-ink-3" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-ink group-hover:text-ink-2 transition-colors">GitHub</p>
+                    <p className="text-xs text-ink-4">y0hannes</p>
+                  </div>
+                  <ArrowUpRight size={14} className="ml-auto text-ink-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
+                <a
+                  href="https://linkedin.com/in/yohannes-muluken/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-surface-2 border border-border flex items-center justify-center group-hover:bg-surface-3 group-hover:border-parchment transition-colors duration-200">
+                    <Linkedin size={18} className="text-ink-3" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-ink group-hover:text-ink-2 transition-colors">LinkedIn</p>
+                    <p className="text-xs text-ink-4">yohannes-muluken</p>
+                  </div>
+                  <ArrowUpRight size={14} className="ml-auto text-ink-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Right: form */}
+            <motion.div {...fadeUp(0.1)}>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-medium uppercase tracking-widest text-ink-4">Name</label>
+                    <input
+                      {...register('name', { required: true })}
+                      placeholder="Your Name"
+                      className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-ink text-sm placeholder:text-ink-4 focus:outline-none focus:border-parchment focus:ring-1 focus:ring-accent/15 transition-all duration-200"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-medium uppercase tracking-widest text-ink-4">Email</label>
+                    <input
+                      {...register('email', { required: true })}
+                      type="email"
+                      placeholder="your@email.com"
+                      className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-ink text-sm placeholder:text-ink-4 focus:outline-none focus:border-parchment focus:ring-1 focus:ring-accent/15 transition-all duration-200"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <label className="text-[11px] font-medium uppercase tracking-widest text-ink-4">Message</label>
+                  <textarea
+                    {...register('content', { required: true })}
+                    rows={7}
+                    placeholder="Tell me about your project..."
+                    className="w-full px-4 py-3 bg-surface border border-border rounded-xl text-ink text-sm placeholder:text-ink-4 focus:outline-none focus:border-parchment focus:ring-1 focus:ring-accent/15 transition-all duration-200 resize-y"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="group w-full py-3.5 bg-accent text-canvas text-sm font-medium rounded-xl hover:bg-accent-2 transition-colors duration-200 shadow-warm flex items-center justify-center gap-2"
+                >
+                  Send Message
+                  <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform duration-200" />
+                </button>
+              </form>
+            </motion.div>
+
+          </div>
         </div>
       </section>
+
     </div>
   );
 };

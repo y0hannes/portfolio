@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 import validator from 'validator';
 import { type Project } from '../../../types/Project';
 
-export interface IProject extends Omit<Project, '_id'>, Document {}
+export interface IProject extends Omit<Project, 'id' | '_id'>, Document {}
 
 const projectSchema: Schema = new mongoose.Schema({
   title: {

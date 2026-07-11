@@ -2,7 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 import validator from 'validator';
 import { type Message } from '../../../types/Message';
 
-export interface IMessage extends Omit<Message, '_id'>, Document {}
+export interface IMessage extends Omit<Message, 'id' | '_id'>, Document {}
 
 const messageSchema: Schema = new mongoose.Schema({
   name: {

@@ -2,25 +2,109 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ══════════════════════════════════════════════════════
+   THEME — edit only this block to retheme the whole site
+   ══════════════════════════════════════════════════════ */
+:root {
+  /* Backgrounds */
+  --color-canvas:    #F7F7F5;   /* Soft White — primary bg            */
+  --color-surface:   #EEEEEC;   /* Light Gray — section bg            */
+  --color-surface-2: #E3E3E0;   /* Stone — card bg                    */
+  --color-surface-3: #D7D7D3;   /* Mist Gray — elevated / hover state */
+  --color-parchment: #B0B0AC;   /* mid tone — decorative lines        */
+
+  /* Borders */
+  --color-border:      #D7D7D3;   /* Mist Gray                        */
+  --color-border-warm: #C4C4C0;   /* slightly deeper                  */
+
+  /* Text / ink */
+  --color-ink:   #1D1D1F;   /* Graphite — primary text              */
+  --color-ink-2: #3A3A3C;   /* dark gray — emphasis                 */
+  --color-ink-3: #6D6D72;   /* Cool Gray — body / muted             */
+  --color-ink-4: #9A9A9F;   /* light gray — placeholders / labels   */
+
+  /* Accents */
+  --color-accent:       #58616C;   /* Slate                            */
+  --color-accent-2:     #434B54;   /* Dark Slate — hover               */
+  --color-accent-warm:  #6B7580;   /* lighter slate highlight          */
+  --color-accent-muted: #E3E3E0;   /* soft tint for accent bg          */
+  --color-sienna:       #6D6D72;   /* Cool Gray — mid tone             */
+  --color-sand:         #9A9A9F;   /* pale gray                        */
+
+  /* Dark (admin) */
+  --color-dark:   #111113;
+  --color-dark-2: #1A1A1C;
+  --color-dark-3: #222224;
+  --color-dark-4: #2C2C2E;
+}
+
+/* ── Dark mode overrides — applied when <html> has class="dark" ── */
+.dark {
+  --color-canvas:    #141516;   /* Rich Charcoal                    */
+  --color-surface:   #1A1C1E;   /* Deep Slate                       */
+  --color-surface-2: #202326;   /* Graphite                         */
+  --color-surface-3: #282C30;   /* Soft Slate                       */
+  --color-parchment: #32363B;   /* Border / divider tone            */
+
+  --color-border:      #32363B;   /* Subtle Gray                    */
+  --color-border-warm: #2A2D31;   /* Deep Gray / divider            */
+
+  --color-ink:   #F2F2F0;   /* Soft White                          */
+  --color-ink-2: #D0D4DA;   /* between primary and muted          */
+  --color-ink-3: #A3A7AD;   /* Muted Gray                          */
+  --color-ink-4: #737983;   /* Dim Gray                            */
+
+  --color-accent:       #8A96A3;   /* Slate Blue                    */
+  --color-accent-2:     #A5B2BF;   /* Accent Hover / Light Slate    */
+  --color-accent-warm:  #A5B2BF;   /* Light Slate highlight         */
+  --color-accent-muted: #202326;   /* soft tint for accent bg       */
+  --color-sienna:       #A3A7AD;   /* Muted Gray mid tone           */
+  --color-sand:         #737983;   /* Dim Gray                      */
+
+  --color-dark:   #0D0E0F;
+  --color-dark-2: #111213;
+  --color-dark-3: #141516;
+  --color-dark-4: #1A1C1E;
+}
+
 @layer base {
   body {
-    @apply bg-dark text-white font-sans antialiased overflow-x-hidden;
+    @apply bg-canvas text-ink font-sans antialiased overflow-x-hidden;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-canvas);
   }
 }
 
-.glass-panel {
-  @apply bg-glass backdrop-blur-xl border border-white/10 shadow-2xl;
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-[#03100b];
-}
-
+/* ── Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: var(--color-surface); }
 ::-webkit-scrollbar-thumb {
-  @apply bg-emerald-900/50 rounded-full border-2 border-[#03100b] hover:bg-emerald-700/80 transition-colors;
+  background: var(--color-parchment);
+  border-radius: 9999px;
+  border: 2px solid var(--color-surface);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent-warm); }
+
+/* Admin dark scrollbar */
+.admin-scroll::-webkit-scrollbar-track { background: var(--color-dark); }
+.admin-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-dark-4);
+  border-color: var(--color-dark);
+}
+.admin-scroll::-webkit-scrollbar-thumb:hover { background: var(--color-accent); }
+
+/* ── Decorative horizontal rule ──────────────────────── */
+.rule-warm {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-parchment) 30%, var(--color-parchment) 70%, transparent 100%);
+}
+
+/* ── Animations ───────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
