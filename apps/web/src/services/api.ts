@@ -2,6 +2,7 @@ import { supabase } from '../lib/supabase';
 import type { Project } from '../../../types/Project';
 import type { Message } from '../../../types/Message';
 import type { Certificate } from '../../../types/Certificate';
+import type { Experience } from '../../../types/Experience';
 
 /**
  * Utility to upload images to Supabase Storage
@@ -245,6 +246,76 @@ const deleteCertificate = async (id: string): Promise<void> => {
   if (error) throw error;
 };
 
+// ── Experiences ───────────────────────────────────────────────────────────────
+
+const getExperiences = async (): Promise<Experience[]> => {
+  try {
+    const { data, error } = await supabase
+      .from('experiences')
+      .select('*')
+      .order('sort_order', { ascending: true });
+
+    if (error) throw error;
+
+    return (data || []).map((e: any) => ({
+      ...e,
+      startDate: e.start_date,
+      endDate: e.end_date,
+      sortOrder: e.sort_order,
+    }));
+  } catch (error) {
+    console.error('Failed to fetch experiences', error);
+    return [];
+  }
+};
+
+const addExperience = async (data: Omit<Experience, 'id'>): Promise<void> => {
+  const { data: maxData } = await supabase
+    .from('experiences')
+    .select('sort_order')
+    .order('sort_order', { ascending: false })
+    .limit(1);
+
+  const nextOrder = maxData && maxData.length > 0 ? (maxData[0].sort_order ?? 0) + 1 : 0;
+
+  const row = {
+    role: data.role,
+    company: data.company,
+    location: data.location,
+    start_date: data.startDate,
+    end_date: data.endDate,
+    description: data.description,
+    tags: data.tags,
+    sort_order: nextOrder,
+  };
+
+  const { error } = await supabase.from('experiences').insert([row]);
+  if (error) throw error;
+};
+
+const updateExperience = async (id: string, data: Partial<Experience>): Promise<void> => {
+  const row: any = { ...data };
+  if (data.startDate !== undefined) { row.start_date = data.startDate; delete row.startDate; }
+  if (data.endDate   !== undefined) { row.end_date   = data.endDate;   delete row.endDate; }
+  if (data.sortOrder !== undefined) { row.sort_order = data.sortOrder; delete row.sortOrder; }
+
+  const { error } = await supabase.from('experiences').update(row).eq('id', id);
+  if (error) throw error;
+};
+
+const deleteExperience = async (id: string): Promise<void> => {
+  const { error } = await supabase.from('experiences').delete().eq('id', id);
+  if (error) throw error;
+};
+
+const updateExperiencesOrder = async (items: { id: string; sort_order: number }[]): Promise<void> => {
+  const results = await Promise.all(
+    items.map(item => supabase.from('experiences').update({ sort_order: item.sort_order }).eq('id', item.id))
+  );
+  const err = results.find(r => r.error)?.error;
+  if (err) throw err;
+};
+
 export const api = {
   authAdmin,
   getProjects,
@@ -259,4 +330,9 @@ export const api = {
   addCertificate,
   updateCertificate,
   deleteCertificate,
+  getExperiences,
+  addExperience,
+  updateExperience,
+  deleteExperience,
+  updateExperiencesOrder,
 };

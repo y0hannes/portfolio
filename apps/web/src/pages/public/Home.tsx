@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   ArrowRight, Code2, Cpu, Globe, Send, ExternalLink,
-  Brain, Database, Github, Linkedin, ArrowUpRight,
+  Brain, Database, Github, Linkedin, ArrowUpRight, Briefcase, MapPin,
 } from 'lucide-react';
 import * as Icons from 'lucide-react';
 import { api } from '../../services/api';
 import { type Project } from '../../../../types/Project';
 import { type Certificate } from '../../../../types/Certificate';
+import { type Experience } from '../../../../types/Experience';
 import { useForm } from 'react-hook-form';
 import { useToast } from '../../components/common/Toast';
 
@@ -24,13 +25,14 @@ const fadeUp = (delay = 0) => ({
 export const Home = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [certificates, setCertificates] = useState<Certificate[]>([]);
+  const [experiences, setExperiences] = useState<Experience[]>([]);
   const [loading, setLoading] = useState(true);
   const { addToast } = useToast();
   const { register, handleSubmit, reset } = useForm<ContactFormData>();
 
   useEffect(() => {
-    Promise.all([api.getProjects(), api.getCertificates()])
-      .then(([p, c]) => { setProjects(p); setCertificates(c); })
+    Promise.all([api.getProjects(), api.getCertificates(), api.getExperiences()])
+      .then(([p, c, e]) => { setProjects(p); setCertificates(c); setExperiences(e); })
       .finally(() => setLoading(false));
   }, []);
 
@@ -374,6 +376,107 @@ export const Home = () => {
                 </motion.div>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/*Warm divider*/}
+      <div className="max-w-5xl mx-auto px-6 bg-surface">
+        <hr className="rule-warm" />
+      </div>
+
+      {/* EXPERIENCE */}
+      <section id="experience" className="py-28 bg-surface">
+        <div className="max-w-5xl mx-auto px-6">
+          <motion.div {...fadeUp()} className="mb-14">
+            <p className="text-[11px] font-medium tracking-[0.22em] uppercase text-ink-4 mb-3 flex items-center gap-2">
+              <span className="w-4 h-px bg-accent/50" /> Experience
+            </p>
+            <h2 className="font-serif text-4xl md:text-[2.8rem] font-medium tracking-tight text-ink leading-tight">
+              Work History
+            </h2>
+          </motion.div>
+
+          <div className="relative">
+            {/* Vertical timeline line */}
+            <div className="absolute left-[19px] top-2 bottom-2 w-px bg-border hidden sm:block" />
+
+            <div className="space-y-6">
+              {loading ? (
+                Array.from({ length: 3 }).map((_, i) => (
+                  <div key={i} className="flex gap-6 animate-pulse">
+                    <div className="w-10 h-10 rounded-full bg-surface-2 shrink-0 hidden sm:block" />
+                    <div className="flex-1 bg-surface-2 rounded-2xl p-6 space-y-3">
+                      <div className="h-4 bg-surface-3 rounded w-1/3" />
+                      <div className="h-3 bg-surface-3 rounded w-1/4" />
+                      <div className="h-12 bg-surface-3 rounded" />
+                    </div>
+                  </div>
+                ))
+              ) : experiences.length > 0 ? (
+                experiences.map((exp, i) => (
+                  <motion.div
+                    key={exp.id}
+                    {...fadeUp(i * 0.07)}
+                    className="flex gap-6"
+                  >
+                    {/* Timeline dot */}
+                    <div className="shrink-0 hidden sm:flex items-start pt-5">
+                      <div className="w-10 h-10 rounded-full bg-canvas border-2 border-border flex items-center justify-center z-10">
+                        <Briefcase size={15} className="text-accent" />
+                      </div>
+                    </div>
+
+                    {/* Card */}
+                    <div className="flex-1 bg-canvas border border-border rounded-2xl p-6 hover:border-parchment hover:shadow-card transition-all duration-200">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-3">
+                        <div>
+                          <h3 className="font-serif text-lg font-medium text-ink leading-snug">
+                            {exp.role}
+                          </h3>
+                          <div className="flex flex-wrap items-center gap-2 mt-1">
+                            <span className="text-sm font-medium text-accent">{exp.company}</span>
+                            {exp.location && (
+                              <>
+                                <span className="text-border-warm">·</span>
+                                <span className="flex items-center gap-1 text-xs text-ink-4">
+                                  <MapPin size={11} />
+                                  {exp.location}
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        <span className="text-[11px] font-medium text-ink-4 uppercase tracking-wider whitespace-nowrap shrink-0 mt-0.5">
+                          {exp.startDate} — {exp.endDate}
+                        </span>
+                      </div>
+
+                      <p className="text-[14px] text-ink-3 leading-[1.8] mb-4">
+                        {exp.description}
+                      </p>
+
+                      {exp.tags?.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5">
+                          {exp.tags.map(tag => (
+                            <span
+                              key={tag}
+                              className="px-2.5 py-0.5 text-[11px] font-medium rounded-full bg-surface-2 text-ink-3 border border-border"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                ))
+              ) : (
+                <div className="text-center py-24 rounded-2xl border border-border bg-canvas">
+                  <p className="text-ink-4 text-sm">No experience entries yet.</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>

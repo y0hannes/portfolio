@@ -10,6 +10,7 @@ import { Messages } from './pages/admin/Messages';
 import { Projects } from './pages/admin/Projects';
 
 import { Certificates } from './pages/admin/Certificates';
+import { Experiences } from './pages/admin/Experiences';
 import { ToastProvider } from './components/common/Toast';
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path='projects' element={<Projects />} />
 
             <Route path='certificates' element={<Certificates />} />
+            <Route path='experiences'  element={<Experiences />} />
           </Route>
 
           {/* Admin Login (Standalone) */}

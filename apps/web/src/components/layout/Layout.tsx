@@ -38,6 +38,7 @@ export const Layout = () => {
   const navLinks = [
     { name: 'About',        href: '#about' },
     { name: 'Work',         href: '#work' },
+    { name: 'Experience',   href: '#experience' },
     { name: 'Certificates', href: '#certificates' },
     { name: 'Contact',      href: '#contact' },
   ];

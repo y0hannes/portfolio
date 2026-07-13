@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { LayoutDashboard, MessageSquare, FolderPlus, LogOut, Menu, X, Award } from 'lucide-react';
+import { LayoutDashboard, MessageSquare, FolderPlus, LogOut, Menu, X, Award, Briefcase } from 'lucide-react';
 import { clsx } from 'clsx';
 
 export const AdminLayout = () => {
@@ -28,6 +28,7 @@ export const AdminLayout = () => {
     { path: '/admin/messages',     icon: MessageSquare,   label: 'Messages' },
     { path: '/admin/projects',     icon: FolderPlus,      label: 'Projects' },
     { path: '/admin/certificates', icon: Award,           label: 'Certificates' },
+    { path: '/admin/experiences',  icon: Briefcase,       label: 'Experience' },
   ];
 
   return (
