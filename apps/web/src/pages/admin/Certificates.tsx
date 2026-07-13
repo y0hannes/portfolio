@@ -5,14 +5,14 @@ import { useToast } from '../../components/common/Toast';
 import { type Certificate } from '../../../../types/Certificate';
 import { Trash2, Plus, X, Pencil, Award } from 'lucide-react';
 
-const inputCls = 'w-full px-4 py-2.5 bg-dark-4 border border-white/10 rounded-lg focus:border-accent/50 focus:outline-none text-sand text-sm placeholder:text-sand/20 transition-colors duration-200';
-const labelCls = 'text-[10px] font-medium text-sand/40 uppercase tracking-widest';
+const inputCls = 'w-full px-4 py-2.5 bg-white/[0.06] border border-white/15 rounded-lg focus:border-accent/60 focus:outline-none text-white text-sm placeholder:text-white/30 transition-colors duration-200';
+const labelCls = 'text-[10px] font-semibold text-white/50 uppercase tracking-widest';
 
 export const Certificates = () => {
-  const [certificates, setCertificates] = useState<Certificate[]>([]);
-  const [isModalOpen,  setIsModalOpen]  = useState(false);
+  const [certificates,       setCertificates]       = useState<Certificate[]>([]);
+  const [isModalOpen,        setIsModalOpen]        = useState(false);
   const [editingCertificate, setEditingCertificate] = useState<Certificate | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading,          setIsLoading]          = useState(true);
   const { addToast } = useToast();
   const { register, handleSubmit, reset, setValue } = useForm();
 
@@ -52,10 +52,10 @@ export const Certificates = () => {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-medium text-sand">Certificates</h1>
+        <h1 className="text-2xl font-semibold text-white">Certificates</h1>
         <button
           onClick={() => openModal()}
-          className="px-4 py-2 bg-accent text-canvas text-sm font-medium rounded-lg hover:bg-accent-2 transition-colors duration-200 flex items-center gap-2"
+          className="px-4 py-2 bg-accent text-white text-sm font-semibold rounded-lg hover:bg-accent-2 transition-colors duration-200 flex items-center gap-2"
         >
           <Plus size={16} /> Add Certificate
         </button>
@@ -63,8 +63,8 @@ export const Certificates = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {isLoading ? (
-          [1,2,3].map(i => (
-            <div key={i} className="bg-dark-3 border border-white/[0.06] rounded-xl animate-pulse p-5">
+          [1, 2, 3].map(i => (
+            <div key={i} className="bg-dark-3 border border-white/[0.08] rounded-xl animate-pulse p-5">
               <div className="w-9 h-9 bg-dark-4 rounded-lg mb-5" />
               <div className="space-y-3">
                 <div className="h-3 bg-dark-4 rounded w-3/4" />
@@ -75,29 +75,31 @@ export const Certificates = () => {
           ))
         ) : (
           certificates.map(cert => (
-            <div key={cert.id} className="group relative bg-dark-3 border border-white/[0.06] rounded-xl p-5 hover:border-accent/30 transition-colors duration-200">
+            <div key={cert.id} className="group relative bg-dark-3 border border-white/[0.08] rounded-xl p-5 hover:border-accent/35 transition-colors duration-200">
               <div className="absolute top-4 right-4 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 <button onClick={() => openModal(cert)}
-                  className="p-1.5 bg-white/8 text-sand/50 rounded-md hover:bg-white/15 hover:text-sand transition-colors">
+                  className="p-1.5 bg-white/10 text-white/60 rounded-md hover:bg-white/20 hover:text-white transition-colors">
                   <Pencil size={13} />
                 </button>
                 <button onClick={() => handleDelete(cert.id!)}
-                  className="p-1.5 bg-red-500/10 text-red-400 rounded-md hover:bg-red-500 hover:text-white transition-colors">
+                  className="p-1.5 bg-red-500/15 text-red-400 rounded-md hover:bg-red-500 hover:text-white transition-colors">
                   <Trash2 size={13} />
                 </button>
               </div>
-              <div className="w-9 h-9 rounded-lg bg-accent/15 border border-accent/20 flex items-center justify-center mb-5">
-                <Award size={16} className="text-sand/50" />
+
+              <div className="w-9 h-9 rounded-lg bg-accent/20 border border-accent/25 flex items-center justify-center mb-5">
+                <Award size={16} className="text-white/70" />
               </div>
+
               <div className="space-y-2">
                 <div className="flex gap-1.5 flex-wrap">
-                  <span className="px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider rounded bg-accent/10 text-sand/40">{cert.category}</span>
-                  <span className="px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider rounded bg-white/5 text-sand/30">{cert.date}</span>
+                  <span className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded bg-accent/15 text-white/70">{cert.category}</span>
+                  <span className="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded bg-white/8 text-white/50">{cert.date}</span>
                 </div>
-                <h3 className="font-medium text-sand text-sm leading-snug">{cert.title}</h3>
+                <h3 className="font-semibold text-white text-sm leading-snug">{cert.title}</h3>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[10px] text-sand/25 uppercase tracking-wider">Issuer:</span>
-                  <p className="text-sand/50 text-xs">{cert.issuer}</p>
+                  <span className="text-[10px] text-white/40 uppercase tracking-wider font-medium">Issuer:</span>
+                  <p className="text-white/65 text-xs font-medium">{cert.issuer}</p>
                 </div>
               </div>
             </div>
@@ -107,14 +109,14 @@ export const Certificates = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/70 backdrop-blur-sm">
-          <div className="w-full max-w-lg bg-dark-2 border border-white/10 rounded-2xl overflow-hidden max-h-[90vh] flex flex-col">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/75 backdrop-blur-sm">
+          <div className="w-full max-w-lg bg-dark-2 border border-white/15 rounded-2xl overflow-hidden max-h-[90vh] flex flex-col">
             <div className="p-7 overflow-y-auto admin-scroll">
               <div className="flex items-center justify-between mb-7">
-                <h2 className="text-lg font-medium text-sand">
+                <h2 className="text-lg font-semibold text-white">
                   {editingCertificate ? 'Edit Certificate' : 'New Certificate'}
                 </h2>
-                <button onClick={closeModal} className="p-1.5 hover:bg-white/8 rounded-lg text-sand/40 hover:text-sand transition-colors">
+                <button onClick={closeModal} className="p-1.5 hover:bg-white/10 rounded-lg text-white/50 hover:text-white transition-colors">
                   <X size={20} />
                 </button>
               </div>
@@ -145,7 +147,7 @@ export const Certificates = () => {
                   <label className={labelCls}>Icon (Lucide — optional)</label>
                   <input {...register('icon')} placeholder="Award" className={inputCls} />
                 </div>
-                <button type="submit" className="w-full py-3 bg-accent text-canvas text-sm font-medium rounded-lg hover:bg-accent-2 transition-colors duration-200">
+                <button type="submit" className="w-full py-3 bg-accent text-white text-sm font-semibold rounded-lg hover:bg-accent-2 transition-colors duration-200">
                   {editingCertificate ? 'Update Certificate' : 'Create Certificate'}
                 </button>
               </form>

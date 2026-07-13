@@ -40,20 +40,20 @@ export const AdminLayout = () => {
         onClick={() => setIsMobileOpen(!isMobileOpen)}
         aria-label="Toggle menu"
       >
-        {isMobileOpen ? <X size={20} className="text-sand" /> : <Menu size={20} className="text-sand" />}
+        {isMobileOpen ? <X size={20} className="text-white" /> : <Menu size={20} className="text-white" />}
       </button>
 
       {/* Sidebar */}
       <aside className={clsx(
-        'fixed inset-y-0 left-0 w-60 bg-dark-2 border-r border-white/[0.06] transform transition-transform duration-300 z-40 lg:translate-x-0 flex flex-col',
+        'fixed inset-y-0 left-0 w-60 bg-dark-2 border-r border-white/[0.08] transform transition-transform duration-300 z-40 lg:translate-x-0 flex flex-col',
         isMobileOpen ? 'translate-x-0' : '-translate-x-full'
       )}>
-        <div className="px-6 py-7 border-b border-white/[0.06]">
+        <div className="px-6 py-7 border-b border-white/[0.08]">
           <div className="flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center">
-              <span className="text-[8px] font-bold text-canvas">YM</span>
+              <span className="text-[8px] font-bold text-white">YM</span>
             </div>
-            <span className="text-sm font-medium text-sand/70">Admin Panel</span>
+            <span className="text-sm font-semibold text-white/80">Admin Panel</span>
           </div>
         </div>
 
@@ -66,8 +66,8 @@ export const AdminLayout = () => {
               className={({ isActive }) => clsx(
                 'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 text-sm',
                 isActive
-                  ? 'bg-accent/20 text-sand border border-accent/25'
-                  : 'text-sand/40 hover:text-sand/70 hover:bg-white/5'
+                  ? 'bg-accent/25 text-white border border-accent/30'
+                  : 'text-white/60 hover:text-white hover:bg-white/8'
               )}
             >
               <item.icon size={16} />
@@ -76,10 +76,10 @@ export const AdminLayout = () => {
           ))}
         </nav>
 
-        <div className="px-3 py-4 border-t border-white/[0.06]">
+        <div className="px-3 py-4 border-t border-white/[0.08]">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-sand/30 hover:text-red-400 hover:bg-red-500/8 transition-all duration-200"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200"
           >
             <LogOut size={16} />
             <span className="font-medium">Logout</span>
